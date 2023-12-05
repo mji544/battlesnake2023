@@ -3,7 +3,7 @@ import { GameState, InfoResponse, MoveResponse } from './types';
 
 @Injectable()
 export class AttackService {
-  attackStrategy(gameState: GameState): MoveResponse {
+  public attackStrategy(gameState: GameState): MoveResponse {
     return {move: "down"};
   }
 }

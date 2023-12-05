@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { GameState, InfoResponse, MoveResponse } from './types';
 import { AttackService } from './attack.service';
+import { FoodService } from './food.service';
+import { DefaultService } from './default.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly attackService: AttackService,
-    private readonly foodService: FoodService,
-    private readonly DefaultService: DefaultService) {}
+  constructor(private attackService: AttackService,
+    private foodService: FoodService,
+    private defaultService: DefaultService) {}
 
   public initialInfo() : InfoResponse {
     console.log("INFO");
@@ -25,6 +27,6 @@ export class AppService {
   }
 
   defaultStrategy(gameState: GameState): MoveResponse {
-    return 
+    return {move: "down"};
   }
 }

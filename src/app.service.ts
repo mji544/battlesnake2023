@@ -23,10 +23,14 @@ export class AppService {
   }
   
   attackStrategy(gameState: GameState): MoveResponse {
-    return {move: "down"};
+    return this.attackService.attackStrategy(gameState);
+  }
+
+  foodStrategy(gameState: GameState): MoveResponse {
+    return this.foodService.foodStrategy(gameState);
   }
 
   defaultStrategy(gameState: GameState): MoveResponse {
-    return {move: "down"};
+    return this.defaultService.defaultStrategy(gameState);
   }
 }

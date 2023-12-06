@@ -12,29 +12,70 @@ export function calculateDistance(a: Coord, b: Coord): number {
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
-export function nextCoordAfterMove(possibleMove: MoveResponse, currentHeadCoord: Coord): Coord {
-    if (possibleMove.move == Move.RIGHT) {
+export function nextCoordAfterMove(moveDirection: MoveResponse, currentHeadCoord: Coord): Coord {
+    if (moveDirection.move == Move.RIGHT) {
         return { x: currentHeadCoord.x + 1, y: currentHeadCoord.y }
-    } else if (possibleMove.move == Move.LEFT) {
+    } else if (moveDirection.move == Move.LEFT) {
         return { x: currentHeadCoord.x - 1, y: currentHeadCoord.y }
-    } else if (possibleMove.move == Move.UP) {
+    } else if (moveDirection.move == Move.UP) {
         return { x: currentHeadCoord.x, y: currentHeadCoord.y + 1 }
     } else {
         return { x: currentHeadCoord.x, y: currentHeadCoord.y - 1 }
     }
 }
 
-export function lookAhead(gameState: GameState, possibleMove: MoveResponse | null): boolean {
-    if (possibleMove == null) {
-        return false;
-    }
-
-    // let numberOfFutureSafeMoves = 0;
-    const nextMyHeadCoord = nextCoordAfterMove(possibleMove, gameState.you.head)
-    for (let opponent of gameState.board.snakes) {
-        if (calculateDistance(nextMyHeadCoord, opponent.head) <= 1 && (opponent.body.length >= gameState.you.length)) {
-            return false;
+export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]): Move[] {
+    let safeMoves = [];
+    let notSafeMoves = [];
+    for (const move of possibleMoves) {
+        const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
+        for (let opponent of gameState.board.snakes) {
+            if (distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord) <= 1 && (opponent.body.length >= gameState.you.length)) {
+                notSafeMoves.push(move);
+            }
         }
     }
-    return true;
+    safeMoves = possibleMoves.filter(move => !notSafeMoves.includes(move));
+    return safeMoves;
+}
+
+export function coordHasMySnake(gameState: GameState, coord: Coord): boolean {
+    const mySnake = gameState.you;
+    if (mySnake.body.includes(coord) || mySnake.head == coord) {
+        return true;
+    }
+    return false;
+}
+
+export function coordHasOpponent(gameState: GameState, coord: Coord): boolean {
+    const opponents = gameState.board.snakes;
+    opponents.forEach((opponent) => {
+        if (opponent.body.includes(coord)) {
+            return true;
+        }
+    });
+    return false;
+}
+
+export function coordOutOfBounds(gameState: GameState, coord: Coord): boolean {
+    const boardWidth = gameState.board.width;
+    const boardHeight = gameState.board.height;
+
+    return coord.x < 0 || coord.x >= boardWidth || coord.y < 0 || coord.y >= boardHeight;
+}
+
+export function distanceFromCoordToOpponentHead(opponent: Battlesnake, coord: Coord): number {
+    return calculateDistance(coord, opponent.head);
+}
+
+export function getNumberOfSafeMovesAtCoord(gameState: GameState, coord: Coord): number {
+    let moves = [ Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT ];
+    let safeMoves = [];
+    for (const move of moves) {
+        let moveCoord = nextCoordAfterMove({ move: move }, coord);
+        if (!coordHasOpponent(gameState, moveCoord) && !coordOutOfBounds(gameState, moveCoord) && !coordHasMySnake(gameState, coord)) {
+            safeMoves.push(move);
+        }
+    }
+    return safeMoves.length;
 }

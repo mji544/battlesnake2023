@@ -25,18 +25,20 @@ export function nextCoordAfterMove(moveDirection: MoveResponse, currentHeadCoord
 }
 
 export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]): Move[] {
-    let safeMoves: Move[] = [];
+    // let safeMoves: Move[] = [];
     let notSafeMoves: Move[] = [];
     for (const move of possibleMoves) {
         const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
         for (let opponent of gameState.board.snakes) {
             if (distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord) <= 1 && (opponent.body.length >= gameState.you.length)) {
                 notSafeMoves.push(move);
+                console.log("bad" +move)
             }
         }
     }
     
-    safeMoves = possibleMoves.filter(move => !notSafeMoves.includes(move));
+    const safeMoves = possibleMoves.filter(move => !notSafeMoves.includes(move));
+    console.log(possibleMoves, safeMoves)
     return safeMoves;
 }
 

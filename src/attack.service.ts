@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Battlesnake, GameState, MoveResponse } from './types';
+import { Battlesnake, GameState } from './types';
 import { Move, calculateDistance, nextCoordAfterMove } from './utils';
-import { FoodService } from './food.service';
-import { DefaultService } from './default.service';
 
 @Injectable()
 export class AttackService {
-  constructor(private defaultService: DefaultService,
-              private foodService: FoodService) {}
+  constructor() {}
 
   public moveTowardsOpponent(gameState: GameState, currentSafeMoves: Move[], opponent: Battlesnake): Move[] {
     let safeMoves = [];
@@ -54,13 +51,5 @@ export class AttackService {
     });
   
     return closestOpponent;
-  }
-
-
-
-
-  public attackStrategy(gameState: GameState): MoveResponse {
-    let availableMoves = this.defaultService.getBasicAvailableMoves(gameState);
-    return { move: availableMoves[0] };
   }
 }

@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Coord, GameState, MoveResponse } from './types';
-import { Move, calculateDistance, distanceFromCoordToOpponentHead, getNumberOfSafeMovesAtCoord, lookAheadForOpponent, nextCoordAfterMove } from './utils';
-import { DefaultService } from './default.service';
-import { AttackService } from './attack.service';
+import { GameState } from './types';
+import { Move, calculateDistance, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
 
 @Injectable()
 export class FoodService {
-  constructor(private defaultService: DefaultService,
-              private attackService: AttackService) {}
+  constructor() {}
 
   public moveTowardsClosestFood(gameState: GameState, currentSafeMoves: Move[]): Move[] {
     let suggestedMove = null;
@@ -32,7 +29,7 @@ export class FoodService {
     return suggestedMove != null ? suggestedMove : currentSafeMoves[0];
   }
 
-  private lookAheadConservative(gameState: GameState, possibleMoves: Move[]): Move {
+  public lookAheadConservative(gameState: GameState, possibleMoves: Move[]): Move {
     let moveWithMostSafeMoves = Move.RIGHT;
     let mostAmountOfFutureSafeMoves = 0;
     let numberOfFutureSafeMoves = 0;
@@ -45,18 +42,5 @@ export class FoodService {
       }
     }
     return moveWithMostSafeMoves;
-}
-
-
-
-  public foodStrategy(gameState: GameState): MoveResponse {
-    let availableMoves = this.defaultService.getBasicAvailableMoves(gameState);
-
-    // Ideas:
-    // See if other opponents are going to eat a food and grow
-    // Check to see if not, then can move to follow the tail
-    let suggestedMove = this.lookAheadConservative(gameState, availableMoves);
-
-    return { move: suggestedMove };
   }
 }

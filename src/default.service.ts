@@ -35,8 +35,12 @@ export class DefaultService {
 
   public getBasicAvailableMoves(gameState: GameState): Move[] {
     let availableMoves = this.avoidSelf(gameState, this.initialMoves);
+    console.log(availableMoves)
     availableMoves = this.avoidOutOfBounds(gameState, availableMoves);
+    console.log(availableMoves)
     availableMoves = this.avoidOpponents(gameState, availableMoves);
+    console.log(availableMoves)
+
 
     return availableMoves;
   }

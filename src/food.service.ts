@@ -7,7 +7,7 @@ export class FoodService {
   constructor() {}
 
   public moveTowardsClosestFood(gameState: GameState, currentSafeMoves: Move[]): Move[] {
-    let suggestedMove = null;
+    let suggestedMoves = [];
     const food = gameState.board.food;
     const myHead = gameState.you.head;
     let distanceToClosestFood = 0;
@@ -21,12 +21,11 @@ export class FoodService {
 
     for (const move of currentSafeMoves) {
       if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), closestFood) < distanceToClosestFood) {
-        suggestedMove = move;
-        break;
+        suggestedMoves.push(move);
       }
     }
 
-    return suggestedMove != null ? suggestedMove : currentSafeMoves[0];
+    return suggestedMoves;
   }
 
   public lookAheadConservative(gameState: GameState, possibleMoves: Move[]): Move {

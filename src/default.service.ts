@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GameState } from './types';
+import { Battlesnake, GameState } from './types';
 import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds } from './utils';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class DefaultService {
 
   constructor() {}
 
-  public getDefaultSuggestedMove(suggestedForFood: Move[], suggestedForAttack: Move[]): Move {
+  public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], closestOpponent: Battlesnake): Move {
     let commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     console.log("common moves: " + commonMoves)
     
@@ -18,7 +18,7 @@ export class DefaultService {
       console.log("Taking first common move");
       return commonMoves[0];
     }
-    if (suggestedForAttack.length > 0) {
+    if (suggestedForAttack.length > 0 && closestOpponent.length < gameState.you.length) {
       console.log("Taking first attack move");
       return suggestedForAttack[0];
     }

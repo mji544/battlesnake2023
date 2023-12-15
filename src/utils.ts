@@ -25,8 +25,8 @@ export function nextCoordAfterMove(moveDirection: MoveResponse, currentHeadCoord
 }
 
 export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]): Move[] {
-    let safeMoves = [];
-    let notSafeMoves = [];
+    let safeMoves: Move[] = [];
+    let notSafeMoves: Move[] = [];
     for (const move of possibleMoves) {
         const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
         for (let opponent of gameState.board.snakes) {
@@ -70,7 +70,7 @@ export function distanceFromCoordToOpponentHead(opponent: Battlesnake, coord: Co
 
 export function getNumberOfSafeMovesAtCoord(gameState: GameState, coord: Coord): number {
     let moves = [ Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT ];
-    let safeMoves = [];
+    let safeMoves: Move[] = [];
     for (const move of moves) {
         let moveCoord = nextCoordAfterMove({ move: move }, coord);
         if (!coordHasOpponent(gameState, moveCoord) && !coordOutOfBounds(gameState, moveCoord) && !coordHasMySnake(gameState, coord)) {

@@ -9,7 +9,6 @@ export enum Move {
 
 export function calculateDistance(a: Coord, b: Coord): number {
     // number of spaces
-    console.log(a.x, a.y, b.x, b.y)
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
@@ -70,6 +69,7 @@ export function coordOutOfBounds(gameState: GameState, coord: Coord): boolean {
 }
 
 export function distanceFromCoordToOpponentHead(opponent: Battlesnake, coord: Coord): number {
+    console.log(opponent.head.x, opponent.head.y, coord.x, coord.y)
     return calculateDistance(coord, opponent.head);
 }
 

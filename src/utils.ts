@@ -30,6 +30,9 @@ export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]
     for (const move of possibleMoves) {
         const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
         for (let opponent of gameState.board.snakes) {
+            if (opponent.id == gameState.you.id) {
+                continue;
+            }
             console.log((distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord) <= 1), (opponent.body.length >= gameState.you.length))
             if (distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord) <= 1 && (opponent.body.length >= gameState.you.length)) {
                 notSafeMoves.push(move);

@@ -42,6 +42,7 @@ export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]
     //         safeMoves.push(move);
     //     }
     // })
+    
     safeMoves = possibleMoves.filter(move => !notSafeMoves.includes(move));
     return safeMoves;
 }

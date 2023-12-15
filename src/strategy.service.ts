@@ -34,6 +34,9 @@ export class StrategyService {
     let suggestedMovesForFood = this.foodService.moveTowardsClosestFood(gameState, availableMoves);
     let suggestedMovesForAttack = this.attackService.moveTowardsOpponent(gameState, availableMoves, closestOpponent);
     
+    console.log(availableMoves)
+    console.log(suggestedMove, suggestedMovesForAttack, suggestedMovesForFood)
+
     let lookAheadForFood = lookAheadForOpponent(gameState, suggestedMovesForFood);
     let lookAheadForAttack = lookAheadForOpponent(gameState, suggestedMovesForAttack);
 

@@ -11,7 +11,8 @@ export class DefaultService {
   constructor() {}
 
   public getDefaultSuggestedMove(suggestedForFood: Move[], suggestedForAttack: Move[]): Move {
-    let commonMoves = suggestedForAttack.filter(value => {suggestedForFood.includes(value)});
+    let commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
+    console.log("common moves: " + commonMoves)
     
     if (commonMoves.length > 0) {
       console.log("Taking first common move");

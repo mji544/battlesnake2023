@@ -40,7 +40,7 @@ export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]
     // possibleMoves.forEach(move => {
     //     if (!notSafeMoves.includes(move)) {
     //         safeMoves.push(move);
-    //     }
+    //     } 
     // })
     
     safeMoves = possibleMoves.filter(move => !notSafeMoves.includes(move));

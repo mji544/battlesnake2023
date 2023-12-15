@@ -9,6 +9,7 @@ export enum Move {
 
 export function calculateDistance(a: Coord, b: Coord): number {
     // number of spaces
+    console.log(a.x, a.y, b.x, b.y)
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 

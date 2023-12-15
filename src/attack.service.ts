@@ -49,7 +49,7 @@ export class AttackService {
         closestOpponent = opponent;
       }
     });
-  
+    console.log("closestopp:", closestOpponent)
     return closestOpponent;
   }
 }

@@ -35,16 +35,15 @@ export class StrategyService {
     let suggestedMovesForAttack = this.attackService.moveTowardsOpponent(gameState, availableMoves, closestOpponent);
     
     // console.log(availableMoves)
-    // console.log(suggestedMove, suggestedMovesForAttack, suggestedMovesForFood)
+    console.log("possible attack/food", suggestedMovesForAttack, suggestedMovesForFood)
 
     let lookAheadForFood = lookAheadForOpponent(gameState, suggestedMovesForFood);
     let lookAheadForAttack = lookAheadForOpponent(gameState, suggestedMovesForAttack);
 
     // console.log(availableMoves)
-    console.log(lookAheadForAttack, lookAheadForFood)
+    console.log("lookahead attack/food",lookAheadForAttack, lookAheadForFood)
     suggestedMove = this.defaultService.getDefaultSuggestedMove(lookAheadForFood, lookAheadForAttack);
 
-    console.log(suggestedMove);
     console.log(`MOVE ${gameState.turn}: ${suggestedMove}`)
     return { move: suggestedMove };
   }

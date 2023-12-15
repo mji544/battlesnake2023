@@ -25,7 +25,6 @@ export function nextCoordAfterMove(moveDirection: MoveResponse, currentHeadCoord
 }
 
 export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]): Move[] {
-    // let safeMoves: Move[] = [];
     let notSafeMoves: Move[] = [];
     for (const move of possibleMoves) {
         const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
@@ -33,7 +32,6 @@ export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]
             if (opponent.id == gameState.you.id) {
                 continue;
             }
-            console.log((distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord) <= 1), (opponent.body.length >= gameState.you.length))
             if (distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord) <= 1 && (opponent.body.length >= gameState.you.length)) {
                 notSafeMoves.push(move);
                 console.log("bad" +move, distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord))
@@ -72,7 +70,6 @@ export function coordOutOfBounds(gameState: GameState, coord: Coord): boolean {
 }
 
 export function distanceFromCoordToOpponentHead(opponent: Battlesnake, coord: Coord): number {
-    console.log(opponent.head.x, opponent.head.y, coord.x, coord.y)
     return calculateDistance(coord, opponent.head);
 }
 

@@ -68,6 +68,13 @@ export class DefaultService {
     const myBody = gameState.you.body;
 
     for (const move of currentSafeMoves) {
+      const nextCoord = nextCoordAfterMove({ move: move }, myHead);
+      for (const coord of myBody) {
+        if (nextCoord === coord) {
+          console.log("HEREEE")
+        }
+      }
+
       console.log("something", myBody.indexOf(nextCoordAfterMove({ move: move }, myHead)), myBody.some(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.find(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.findIndex(point => point === nextCoordAfterMove({ move: move }, myHead)))
       if (myBody.includes(nextCoordAfterMove({ move: move }, myHead)) || nextCoordAfterMove({ move: move }, myHead) === myNeck) {
         notSafeMoves.push(move);

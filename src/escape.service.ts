@@ -138,6 +138,7 @@ export class EscapeService {
   
     // If the current cell is the destination (a cell with the value 0)
     if (vicinityBoard[x][y] == SpaceContains.MY_HEAD) {
+      console.log("returned true", x, y)
       return true;
     }
 

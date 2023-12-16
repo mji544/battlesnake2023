@@ -17,8 +17,9 @@ export class BoardService {
   private setupBoard(gameState: GameState): SpaceContains[][] {
     this.boardHeight = gameState.board.height;
     this.boardWidth = gameState.board.width;
+    this.board = [];
 
-    for (let row = this.boardHeight; row > 0; row--) {
+    for (let row = this.boardHeight-1; row >= 0; row--) {
         let boardRow = [];
         for (let col = 0; col < this.boardWidth; col++) {
             boardRow.push(this.getSpaceContainsAtCoord(gameState, { x: col, y: row }));

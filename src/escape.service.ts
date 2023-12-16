@@ -61,7 +61,7 @@ export class EscapeService {
     return vicinity;
   }
 
-  public findLongestRoute(gameState: GameState) {
+  public findLongestRoute(gameState: GameState): number[][] {
     const vicinityBoard = this.getVicinityBoard(gameState);
     const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
     const myHeadCoord = gameState.you.head;
@@ -174,9 +174,9 @@ export class EscapeService {
 
     // Recursively check adjacent positions
     const nextPath = [
-      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, currentPath) ||
-      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, currentPath) ||
-      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, currentPath) ||
+      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, currentPath),
+      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, currentPath),
+      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, currentPath),
       this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, currentPath)
     ];
 

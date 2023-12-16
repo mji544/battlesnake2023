@@ -70,12 +70,13 @@ export class DefaultService {
     for (const move of currentSafeMoves) {
       const nextCoord = nextCoordAfterMove({ move: move }, myHead);
       for (const coord of myBody) {
+        console.log(coord)
         if (nextCoord === coord) {
           console.log("HEREEE")
         }
       }
 
-      console.log("something", myBody.indexOf(nextCoordAfterMove({ move: move }, myHead)), myBody.some(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.find(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.findIndex(point => point === nextCoordAfterMove({ move: move }, myHead)))
+      // console.log("something", myBody.indexOf(nextCoordAfterMove({ move: move }, myHead)), myBody.some(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.find(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.findIndex(point => point === nextCoordAfterMove({ move: move }, myHead)))
       if (myBody.includes(nextCoordAfterMove({ move: move }, myHead)) || nextCoordAfterMove({ move: move }, myHead) === myNeck) {
         notSafeMoves.push(move);
       }

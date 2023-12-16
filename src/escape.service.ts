@@ -26,6 +26,7 @@ export class EscapeService {
       console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : 0))))
       return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD)));
     } else {
+      console.log("vissss", visited)
       return null; // No valid path found
     }
   }

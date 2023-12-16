@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord } from './utils';
 
 @Injectable()
 export class DefaultService {
@@ -64,20 +64,11 @@ export class DefaultService {
     let safeMoves: Move[] = [];
     let notSafeMoves: Move[] = [];
     const myHead = gameState.you.head;
-    const myNeck = gameState.you.body[1];
     const myBody = gameState.you.body;
 
     for (const move of currentSafeMoves) {
       const nextCoord = nextCoordAfterMove({ move: move }, myHead);
-      for (const coord of myBody) {
-        console.log(coord, coord == nextCoord, coord === nextCoord)
-        if (coord.x == nextCoord.x && coord.y == nextCoord.y) {
-          console.log("HEREEE")
-        }
-      }
-
-      // console.log("something", myBody.indexOf(nextCoordAfterMove({ move: move }, myHead)), myBody.some(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.find(point => point === nextCoordAfterMove({ move: move }, myHead)), myBody.findIndex(point => point === nextCoordAfterMove({ move: move }, myHead)))
-      if (myBody.includes(nextCoordAfterMove({ move: move }, myHead)) || nextCoordAfterMove({ move: move }, myHead) === myNeck) {
+      if (bodyHasCoord(myBody, nextCoord)) {
         notSafeMoves.push(move);
       }
     }

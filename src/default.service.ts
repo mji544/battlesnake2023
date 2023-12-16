@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake } from './utils';
 
 @Injectable()
 export class DefaultService {
@@ -35,11 +35,11 @@ export class DefaultService {
 
   public getBasicAvailableMoves(gameState: GameState): Move[] {
     let availableMoves = this.avoidSelf(gameState, this.initialMoves);
-    console.log(availableMoves)
+    console.log(coordHasMySnake(gameState, nextCoordAfterMove({move: availableMoves[0]}, gameState.you.head)))
     availableMoves = this.avoidOutOfBounds(gameState, availableMoves);
-    console.log(availableMoves)
+    console.log(coordOutOfBounds(gameState, nextCoordAfterMove({move: availableMoves[0]}, gameState.you.head)))
     availableMoves = this.avoidOpponents(gameState, availableMoves);
-    console.log(availableMoves)
+    console.log(coordHasOpponent(gameState, nextCoordAfterMove({move: availableMoves[0]}, gameState.you.head)))
 
 
     return availableMoves;

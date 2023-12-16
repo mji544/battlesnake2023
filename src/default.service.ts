@@ -36,6 +36,7 @@ export class DefaultService {
     }
     if (suggestedMoveForConservative[1] != null) {
       console.log("Taking move with highest number of future moves");
+      return suggestedMoveForConservative[1];
     }
 
     //Default move

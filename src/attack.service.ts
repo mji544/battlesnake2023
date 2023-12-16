@@ -9,12 +9,12 @@ export class AttackService {
   public moveTowardsOpponent(gameState: GameState, currentSafeMoves: Move[], opponent: Battlesnake): Move[] {
     let safeMoves = [];
     const myHead = gameState.you.head;
-    const currentDistance = calculateDistance(opponent.head, myHead)
-    console.log(opponent)
 
     if (opponent == null) {
+      console.log("opponent is null")
       return [];
     }
+    const currentDistance = calculateDistance(opponent.head, myHead)
 
     for (const move of currentSafeMoves) {
       if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), opponent.head) < currentDistance) {

@@ -27,7 +27,7 @@ export class EscapeService {
     const visited: boolean[][] = Array.from({ length: vicinityBoard.length }, () => Array(vicinityBoard[0].length).fill(false));
 
     // Use DFS to find a continuous, connecting path
-    if (this.dfs(myHeadVicinityCoord, vicinityBoard, visited, myHeadCoord)) {
+    if (this.dfs(myHeadCoord, vicinityBoard, visited, myHeadCoord)) {
       console.log(visited)
       console.log("somethingg")
       // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))

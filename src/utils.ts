@@ -116,7 +116,6 @@ export function bodyHasCoord(body: Coord[], coord: Coord): boolean {
 
 export function coordsAreTheSame(coordA: Coord, coordB: Coord): boolean {
     if (coordA.x == coordB.x && coordA.y == coordB.y) {
-        console.log((coordA.x == coordB.x && coordA.y == coordB.y), (coordA.x === coordB.x && coordA.y === coordB.y), (coordA == coordB), (coordA === coordB))
         return true;
     }
 

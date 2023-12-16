@@ -27,7 +27,7 @@ export class BoardService {
         this.board.push(boardRow);
     }
     
-    console.log(this.board)
+    // console.log(this.board)
     return this.board;
   }
 

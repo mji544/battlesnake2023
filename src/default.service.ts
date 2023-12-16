@@ -75,17 +75,16 @@ export class DefaultService {
 
   private avoidOpponents(gameState: GameState, currentSafeMoves: Move[]): Move[] {
     let safeMoves: Move[] = [];
+    let notSafeMoves: Move[] = [];
     const myHead = gameState.you.head;
     for (const move of currentSafeMoves) {
-      if (lookAheadForOpponent(gameState, currentSafeMoves).includes(move)) {
-        console.log("move contains opp", move)
-      }
-      if (!coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead))) {
+      if (coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead))) {
         console.log(!coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead)), move)
-        safeMoves.push(move);
+        notSafeMoves.push(move);
       }
     };
-    console.log("avoid opp", safeMoves)
+    console.log("avoid opp", notSafeMoves, safeMoves)
+    safeMoves = currentSafeMoves.filter(move => !notSafeMoves.includes(move));
     return safeMoves;
   }
 

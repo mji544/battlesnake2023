@@ -15,7 +15,7 @@ export class AppController {
   @Post('/start')
   @HttpCode(200)
   startGame(@Body() gameState: GameState): void {
-    console.log("GAME START " + gameState);
+    console.log("GAME START " + gameState.board);
   }
  
   @Post('move')
@@ -27,6 +27,6 @@ export class AppController {
   @Post('end')
   @HttpCode(200)
   endGame(@Body() gameState: GameState): void {
-    console.log("GAME END " + gameState);
+    console.log("GAME END " + gameState.board);
   }
 }

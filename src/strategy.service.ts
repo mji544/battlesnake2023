@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GameState, MoveResponse } from './types';
-import { Move, lookAheadForOpponent } from './utils';
+import { lookAheadForOpponent } from './utils';
 import { FoodService } from './food.service';
 import { AttackService } from './attack.service';
 import { DefaultService } from './default.service';

@@ -18,7 +18,7 @@ export class DefaultService {
       console.log("Taking first common move");
       return commonMoves[0];
     }
-    if (suggestedForAttack.length > 0 && closestOpponent.length < gameState.you.length) {
+    if (suggestedForAttack.length > 0 && closestOpponent != null) {
       console.log("Taking first attack move");
       return suggestedForAttack[0];
     }

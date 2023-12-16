@@ -11,6 +11,10 @@ export class AttackService {
     const myHead = gameState.you.head;
     const currentDistance = calculateDistance(opponent.head, myHead)
 
+    if (opponent == null) {
+      return [];
+    }
+
     for (const move of currentSafeMoves) {
       if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), opponent.head) < currentDistance) {
         safeMoves.push(move);

@@ -12,12 +12,12 @@ export class FoodService {
     const myHead = gameState.you.head;
     let distanceToClosestFood = 0;
     let closestFood = null;
-    food.forEach((food) => {
-      if (distanceToClosestFood == 0 || calculateDistance(myHead, food) < distanceToClosestFood) {
-        distanceToClosestFood = calculateDistance(myHead, food)
-        closestFood = food;
+    for (let piece of food) {
+      if (distanceToClosestFood == 0 || calculateDistance(myHead, piece) < distanceToClosestFood) {
+        distanceToClosestFood = calculateDistance(myHead, piece)
+        closestFood = piece;
       }
-    });
+    }
 
     for (let move of currentSafeMoves) {
       if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), closestFood) < distanceToClosestFood) {

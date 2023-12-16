@@ -64,11 +64,11 @@ export function coordHasMySnake(gameState: GameState, coord: Coord): boolean {
 
 export function coordHasOpponent(gameState: GameState, coord: Coord): boolean {
     const opponents = gameState.board.snakes;
-    opponents.forEach((opponent) => {
+    for (let opponent of opponents) {
         if (bodyHasCoord(opponent.body, coord)) {
             return true;
         }
-    });
+    }
     return false;
 }
 
@@ -81,12 +81,11 @@ export function coordOutOfBounds(gameState: GameState, coord: Coord): boolean {
 
 export function coordHasFood(gameState: GameState, coord: Coord): boolean {
     const food = gameState.board.food;
-    food.forEach((piece) => {
-        console.log(piece)
+    for (let piece of food) {
         if (coordsAreTheSame(piece, coord)) {
             return true;
         }
-    });
+    }
     return false;
 }
 

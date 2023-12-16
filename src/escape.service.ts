@@ -20,7 +20,7 @@ export class EscapeService {
     //treat everything else as a barrier
     //follow tail FIXME
     //look four square radius
-    let vicinity = this.gameBoard;
+    let vicinity = [...this.gameBoard];
     const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, myHeadCoord);
     // splice rows
     vicinity = vicinity.splice(indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);

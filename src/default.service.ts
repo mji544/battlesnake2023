@@ -70,8 +70,8 @@ export class DefaultService {
     for (const move of currentSafeMoves) {
       const nextCoord = nextCoordAfterMove({ move: move }, myHead);
       for (const coord of myBody) {
-        console.log(coord)
-        if (nextCoord === coord) {
+        console.log(coord, coord == nextCoord, coord === nextCoord)
+        if (coord.x == nextCoord.x && coord.y == nextCoord.y) {
           console.log("HEREEE")
         }
       }

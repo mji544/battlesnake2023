@@ -23,8 +23,8 @@ export class EscapeService {
 
     // Use DFS to find a continuous, connecting path
     if (this.dfs(myHeadCoord, vicinityBoard, visited)) {
-      console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : 0))))
-      return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD)));
+      console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
+      return visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex])));
     } else {
       console.log("vissss", visited)
       return null; // No valid path found
@@ -104,7 +104,7 @@ export class EscapeService {
     const y = startingPoint.y;
 
     // Check if the current position is within the grid and is an available space
-    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || vicinityBoard[x][y] !== SpaceContains.EMPTY || vicinityBoard[x][y] !== SpaceContains.FOOD) {
+    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || (vicinityBoard[x][y] !== SpaceContains.MY_HEAD && vicinityBoard[x][y] !== SpaceContains.EMPTY && vicinityBoard[x][y] !== SpaceContains.FOOD)) {
       return false;
     }
   

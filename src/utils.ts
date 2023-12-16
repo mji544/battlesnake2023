@@ -54,6 +54,7 @@ export function coordHasOpponent(gameState: GameState, coord: Coord): boolean {
     const opponents = gameState.board.snakes;
     opponents.forEach((opponent) => {
         if (bodyHasCoord(opponent.body, coord)) {
+            console.log(coord)
             return true;
         }
     });

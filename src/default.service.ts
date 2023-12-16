@@ -81,6 +81,7 @@ export class DefaultService {
         safeMoves.push(move);
       }
     };
+    console.log("avoid opp", safeMoves)
     return safeMoves;
   }
 

@@ -82,6 +82,7 @@ export function coordOutOfBounds(gameState: GameState, coord: Coord): boolean {
 export function coordHasFood(gameState: GameState, coord: Coord): boolean {
     const food = gameState.board.food;
     food.forEach((piece) => {
+        console.log(piece)
         if (coordsAreTheSame(piece, coord)) {
             return true;
         }
@@ -115,8 +116,8 @@ export function bodyHasCoord(body: Coord[], coord: Coord): boolean {
 }
 
 export function coordsAreTheSame(coordA: Coord, coordB: Coord): boolean {
-    console.log((coordA.x == coordB.x && coordA.y == coordB.y), (coordA.x === coordB.x && coordA.y === coordB.y), (coordA === coordB))
     if (coordA.x == coordB.x && coordA.y == coordB.y) {
+        console.log((coordA.x == coordB.x && coordA.y == coordB.y), (coordA.x === coordB.x && coordA.y === coordB.y), (coordA == coordB), (coordA === coordB))
         return true;
     }
 

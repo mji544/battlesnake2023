@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState, Coord } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, SpaceContains } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, SpaceContains, coordHasFood } from './utils';
 
 @Injectable()
 export class BoardService {
@@ -32,12 +32,12 @@ export class BoardService {
   }
 
   private getSpaceContainsAtCoord(gameState: GameState, coord: Coord): SpaceContains {
-    if (gameState.board.food.includes(coord)) {
+    if (coordHasFood(gameState, coord)) {
         return SpaceContains.FOOD;
     }
 
     for (let snake of gameState.board.snakes) {
-        if (snake.body.includes(coord)) {
+        if (bodyHasCoord(snake.body, coord)) {
             if (snake.id == gameState.you.id) {
                 return SpaceContains.ME;
             }

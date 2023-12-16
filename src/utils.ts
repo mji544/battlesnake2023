@@ -79,6 +79,16 @@ export function coordOutOfBounds(gameState: GameState, coord: Coord): boolean {
     return coord.x < 0 || coord.x >= boardWidth || coord.y < 0 || coord.y >= boardHeight;
 }
 
+export function coordHasFood(gameState: GameState, coord: Coord): boolean {
+    const food = gameState.board.food;
+    food.forEach((piece) => {
+        if (coordsAreTheSame(piece, coord)) {
+            return true;
+        }
+    });
+    return false;
+}
+
 export function distanceFromCoordToOpponentHead(opponent: Battlesnake, coord: Coord): number {
     return calculateDistance(coord, opponent.head);
 }
@@ -101,5 +111,14 @@ export function bodyHasCoord(body: Coord[], coord: Coord): boolean {
             return true;
         }
     }
+    return false;
+}
+
+export function coordsAreTheSame(coordA: Coord, coordB: Coord): boolean {
+    console.log((coordA.x == coordB.x && coordA.y == coordB.y), (coordA.x === coordB.x && coordA.y === coordB.y), (coordA === coordB))
+    if (coordA.x == coordB.x && coordA.y == coordB.y) {
+        return true;
+    }
+
     return false;
 }

@@ -35,6 +35,7 @@ export class FoodService {
     for (const move of possibleMoves) {
       const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
       numberOfFutureSafeMoves = getNumberOfSafeMovesAtCoord(gameState, nextMyHeadCoord);
+      console.log(move, nextMyHeadCoord, numberOfFutureSafeMoves)
       if (numberOfFutureSafeMoves > mostAmountOfFutureSafeMoves) {
         mostAmountOfFutureSafeMoves = numberOfFutureSafeMoves;
         moveWithMostSafeMoves = move;

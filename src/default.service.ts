@@ -83,11 +83,10 @@ export class DefaultService {
     const myHead = gameState.you.head;
     for (const move of currentSafeMoves) {
       if (coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead))) {
-        console.log(!coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead)), move)
         notSafeMoves.push(move);
       }
     };
-    console.log("avoid opp", notSafeMoves, safeMoves)
+    // FIXME somehow the conditional is always true
     safeMoves = currentSafeMoves.filter(move => !notSafeMoves.includes(move));
     return safeMoves;
   }

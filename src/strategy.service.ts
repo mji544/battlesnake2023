@@ -4,12 +4,14 @@ import { lookAheadForOpponent } from './utils';
 import { FoodService } from './food.service';
 import { AttackService } from './attack.service';
 import { DefaultService } from './default.service';
+import { EscapeService } from './escape.service';
 
 @Injectable()
 export class StrategyService {
   constructor(private foodService: FoodService,
               private attackService: AttackService,
               private defaultService: DefaultService,
+              private escapeService: EscapeService,
             ) {}
 
 
@@ -37,6 +39,7 @@ export class StrategyService {
     console.log("lookahead attack/food", lookAheadForAttack, lookAheadForFood)
     const suggestedMove = this.defaultService.getDefaultSuggestedMove(gameState, lookAheadForFood, lookAheadForAttack, lookAheadForConservative, closestOpponent);
 
+    console.log(this.escapeService.checkIfTrapped())
     console.log(`MOVE ${gameState.turn}: ${suggestedMove}`)
     return { move: suggestedMove };
   }

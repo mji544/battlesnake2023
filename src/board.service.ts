@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState, Coord } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, SpaceContains, coordHasFood } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, SpaceContains, coordHasFood, coordsAreTheSame } from './utils';
 
 @Injectable()
 export class BoardService {
@@ -38,14 +38,25 @@ export class BoardService {
 
     for (let snake of gameState.board.snakes) {
         if (bodyHasCoord(snake.body, coord)) {
-            if (snake.id == gameState.you.id) {
-                return SpaceContains.ME;
-            }
-            return SpaceContains.OPPONENT;
+            return this.setSpaceAsBodyOrHead(gameState, snake, coord);
         }
     }
 
     return SpaceContains.EMPTY;
+  }
+
+  private setSpaceAsBodyOrHead(gameState: GameState, snake: Battlesnake, coord: Coord): SpaceContains {
+    if (snake.id == gameState.you.id) {
+        if (coordsAreTheSame(snake.head, coord)) {
+            return SpaceContains.MY_HEAD;
+        }
+        return SpaceContains.ME;
+    }
+    
+    if (coordsAreTheSame(snake.head, coord)) {
+        return SpaceContains.OPPONENT_HEAD;
+    }
+    return SpaceContains.OPPONENT;
   }
 
 }

@@ -14,9 +14,18 @@ export interface SafeMoves {
 
 export enum SpaceContains {
     OPPONENT = "o",
+    OPPONENT_HEAD = "oh",
     FOOD = "f",
     ME = "m",
+    MY_HEAD = "mh",
     EMPTY = "x"
+}
+
+export interface SplicingIndices {
+    left: number,
+    right: number,
+    down: number,
+    up: number,
 }
 
 export function calculateDistance(a: Coord, b: Coord): number {

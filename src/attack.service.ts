@@ -10,6 +10,7 @@ export class AttackService {
     let safeMoves = [];
     const myHead = gameState.you.head;
     const currentDistance = calculateDistance(opponent.head, myHead)
+    console.log(opponent)
 
     if (opponent == null) {
       return [];

@@ -68,6 +68,7 @@ export class DefaultService {
     const myBody = gameState.you.body;
 
     for (const move of currentSafeMoves) {
+      console.log("something", nextCoordAfterMove({ move: move }, myHead), myNeck, myBody.includes(nextCoordAfterMove({ move: move }, myHead)))
       if (myBody.includes(nextCoordAfterMove({ move: move }, myHead)) || nextCoordAfterMove({ move: move }, myHead) == myNeck) {
         notSafeMoves.push(move);
       }

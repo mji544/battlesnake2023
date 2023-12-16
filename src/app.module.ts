@@ -6,6 +6,7 @@ import { AttackService } from './attack.service';
 import { DefaultService } from './default.service';
 import { StrategyService } from './strategy.service';
 import { BoardService } from './board.service';
+import { EscapeService } from './escape.service';
 
 @Module({
   imports: [],
@@ -15,6 +16,7 @@ import { BoardService } from './board.service';
               AttackService, 
               DefaultService,
               StrategyService,
-              BoardService],
+              BoardService,
+              EscapeService,],
 })
 export class AppModule {}

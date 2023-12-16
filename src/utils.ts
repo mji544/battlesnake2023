@@ -121,3 +121,19 @@ export function coordsAreTheSame(coordA: Coord, coordB: Coord): boolean {
 
     return false;
 }
+
+export function takeHighestNumberOfSafeMoves(commonMovesObj: SafeMoves[]): Move | null {
+    if (commonMovesObj.length == 0) {
+        return null;
+    }
+
+    let highestMove = null;
+    let numberOfHighestMoves = 0;
+    for (let move of commonMovesObj) {
+        if (move.numOfSafeMoves > numberOfHighestMoves) {
+            highestMove = move.move;
+            numberOfHighestMoves = move.numOfSafeMoves;
+        }
+    }
+    return highestMove;
+}

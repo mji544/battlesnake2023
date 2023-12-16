@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, takeHighestNumberOfSafeMoves } from './utils';
 
 @Injectable()
 export class DefaultService {
@@ -12,19 +12,17 @@ export class DefaultService {
 
   public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
     const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
-    const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move));
+    const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
+    const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
     const conservativeMovesForFoodObj = suggestedMoveForConservative[0].filter(value => suggestedForFood.includes(value.move));
-    console.log("common moves: " + commonMoves, conservativeMovesForAttackObj, conservativeMovesForFoodObj)
+    console.log("common moves: " + commonMoves, conservativeMovesObj)
     
-    // if (commonMoves.length > 1) {
-    //   for (let move of commonMoves) {
-    //     if (suggestedMoveForConservative[1] == move) {
-    //       console.log("Taking conservative move");
-    //       return suggestedMoveForConservative[1];
-    //     }
-    //   }
-    // }
-    if (commonMoves.length == 1) {
+
+    if (conservativeMovesObj.length != 0) {
+      console.log("Taking first highest conserv move");
+      return takeHighestNumberOfSafeMoves(conservativeMovesObj);
+    }
+    if (commonMoves.length >= 1) {
       console.log("Taking first common move");
       return commonMoves[0];
     }
@@ -35,6 +33,9 @@ export class DefaultService {
     if (suggestedForFood.length > 0) {
       console.log("Taking first food move");
       return suggestedForFood[0];
+    }
+    if (suggestedMoveForConservative[1] != null) {
+      console.log("Taking move with highest number of future moves");
     }
 
     //Default move

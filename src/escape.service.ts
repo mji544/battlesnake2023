@@ -29,7 +29,7 @@ export class EscapeService {
     // Use DFS to find a continuous, connecting path
     if (this.dfs(myHeadVicinityCoord, vicinityBoard, visited, myHeadCoord)) { //{x: rows, y: cols}
       console.log(visited)
-      console.log("somethingg")
+      console.log("somethingg", visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD))))
       // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
       return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD)));
     } else {

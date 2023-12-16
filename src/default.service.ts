@@ -64,10 +64,11 @@ export class DefaultService {
     let safeMoves: Move[] = [];
     let notSafeMoves: Move[] = [];
     const myHead = gameState.you.head;
+    const myNeck = gameState.you.body[1];
     const myBody = gameState.you.body;
 
     for (const move of currentSafeMoves) {
-      if (myBody.includes(nextCoordAfterMove({ move: move }, myHead))) {
+      if (myBody.includes(nextCoordAfterMove({ move: move }, myHead)) || nextCoordAfterMove({ move: move }, myHead) == myNeck) {
         notSafeMoves.push(move);
       }
     }

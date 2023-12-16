@@ -46,7 +46,7 @@ export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]
 
 export function coordHasMySnake(gameState: GameState, coord: Coord): boolean {
     const mySnake = gameState.you;
-    if (mySnake.body.includes(coord) || mySnake.head == coord) {
+    if (bodyHasCoord(mySnake.body, coord) || mySnake.head == coord) {
         console.log(coord, "has me")
         return true;
     }
@@ -56,7 +56,7 @@ export function coordHasMySnake(gameState: GameState, coord: Coord): boolean {
 export function coordHasOpponent(gameState: GameState, coord: Coord): boolean {
     const opponents = gameState.board.snakes;
     opponents.forEach((opponent) => {
-        if (opponent.body.includes(coord)) {
+        if (bodyHasCoord(opponent.body, coord)) {
             console.log(coord, "has opponent")
             return true;
         }

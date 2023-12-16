@@ -21,33 +21,33 @@ export class EscapeService {
     const rows = vicinityBoard.length;
     const cols = vicinityBoard[0].length;
 
-    // Find the starting point (0)
-    let startRow = -1;
-    let startCol = -1;
+    // // Find the starting point (0)
+    // let startRow = -1;
+    // let startCol = -1;
 
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        if (vicinityBoard[i][j] === SpaceContains.EMPTY || vicinityBoard[i][j] === SpaceContains.FOOD) {
-          startRow = i;
-          startCol = j;
-          break;
-        }
-      }
-      if (startRow !== -1) {
-        break;
-      }
-    }
+    // for (let i = 0; i < rows; i++) {
+    //   for (let j = 0; j < cols; j++) {
+    //     if (vicinityBoard[i][j] === SpaceContains.EMPTY || vicinityBoard[i][j] === SpaceContains.FOOD) {
+    //       startRow = i;
+    //       startCol = j;
+    //       break;
+    //     }
+    //   }
+    //   if (startRow !== -1) {
+    //     break;
+    //   }
+    // }
 
-    // If starting point not found
-    if (startRow === -1) {
-      return null;
-    }
+    // // If starting point not found
+    // if (startRow === -1) {
+    //   return null;
+    // }
 
     // Initialize a 2D array to keep track of visited cells
     const visited: boolean[][] = Array.from({ length: vicinityBoard.length }, () => Array(vicinityBoard[0].length).fill(false));
 
     // Use DFS to find a continuous, connecting path
-    if (this.dfs({x: startRow, y: startCol}, vicinityBoard, visited)) {
+    if (this.dfs(myHeadCoord, vicinityBoard, visited)) {
       console.log("somethingg")
       // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
       return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD)));
@@ -130,22 +130,23 @@ export class EscapeService {
     const y = startingPoint.y;
 
     // Check if the current position is within the grid and is an available space
-    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || (vicinityBoard[x][y] !== SpaceContains.EMPTY && vicinityBoard[x][y] !== SpaceContains.FOOD)) {
+    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || (vicinityBoard[x][y] != SpaceContains.EMPTY && vicinityBoard[x][y] != SpaceContains.FOOD)) {
       return false;
     }
   
     visited[x][y] = true;
   
-    // Check adjacent positions
-    if (
+    // If the current cell is the destination (a cell with the value 0)
+    if (vicinityBoard[x][y] == SpaceContains.MY_HEAD) {
+      return true;
+    }
+
+    // Recursively check adjacent positions
+    return (
       this.dfs({x: x - 1, y: y}, vicinityBoard, visited) ||
       this.dfs({x: x + 1, y: y}, vicinityBoard, visited) ||
       this.dfs({x: x, y: y - 1}, vicinityBoard, visited) ||
       this.dfs({x: x, y: y + 1}, vicinityBoard, visited)
-    ) {
-      return true;
-    }
-  
-    return false;
+    );
   }
 }

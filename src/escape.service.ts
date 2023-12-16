@@ -23,7 +23,7 @@ export class EscapeService {
     let vicinity = [...this.gameBoard];
     const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, myHeadCoord);
     // splice rows
-    vicinity = vicinity.splice(indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
+    vicinity = vicinity.splice(gameState.board.height-indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
     for (let row of vicinity) {
       row.splice(indicesToSplice.left, indicesToSplice.right-indicesToSplice.left);
     }

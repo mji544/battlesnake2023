@@ -7,19 +7,14 @@ import { DefaultService } from './default.service';
 
 @Injectable()
 export class StrategyService {
-  initialMoves: Move[] = [
-    Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT
-  ];
-
   constructor(private foodService: FoodService,
               private attackService: AttackService,
               private defaultService: DefaultService,
             ) {}
 
 
-
   public defaultStrategy(gameState: GameState): MoveResponse {
-    let availableMoves = this.defaultService.getBasicAvailableMoves(gameState);
+    const availableMoves = this.defaultService.getBasicAvailableMoves(gameState);
 
     // Are there any safe moves left?
     if (availableMoves.length == 0) {
@@ -27,22 +22,18 @@ export class StrategyService {
       return { move: "down" };
     }
 
-    let suggestedMove = availableMoves[0];
+    const closestOpponent = this.attackService.findClosestEdibleOpponent(gameState);
 
-    let closestOpponent = this.attackService.findClosestOpponent(gameState);
-
-    let suggestedMovesForFood = this.foodService.moveTowardsClosestFood(gameState, availableMoves);
-    let suggestedMovesForAttack = this.attackService.moveTowardsOpponent(gameState, availableMoves, closestOpponent);
+    const suggestedMovesForFood = this.foodService.moveTowardsClosestFood(gameState, availableMoves);
+    const suggestedMovesForAttack = this.attackService.moveTowardsOpponent(gameState, availableMoves, closestOpponent);
     
-    // console.log(availableMoves)
     console.log("possible attack/food", suggestedMovesForAttack, suggestedMovesForFood)
 
-    let lookAheadForFood = lookAheadForOpponent(gameState, suggestedMovesForFood);
-    let lookAheadForAttack = lookAheadForOpponent(gameState, suggestedMovesForAttack);
+    const lookAheadForFood = lookAheadForOpponent(gameState, suggestedMovesForFood);
+    const lookAheadForAttack = lookAheadForOpponent(gameState, suggestedMovesForAttack);
 
-    // console.log(availableMoves)
-    console.log("lookahead attack/food",lookAheadForAttack, lookAheadForFood)
-    suggestedMove = this.defaultService.getDefaultSuggestedMove(gameState, lookAheadForFood, lookAheadForAttack, closestOpponent);
+    console.log("lookahead attack/food", lookAheadForAttack, lookAheadForFood)
+    const suggestedMove = this.defaultService.getDefaultSuggestedMove(gameState, lookAheadForFood, lookAheadForAttack, closestOpponent);
 
     console.log(`MOVE ${gameState.turn}: ${suggestedMove}`)
     return { move: suggestedMove };

@@ -34,20 +34,17 @@ export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]
             }
             if (distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord) <= 1 && (opponent.body.length >= gameState.you.length)) {
                 notSafeMoves.push(move);
-                console.log("bad" +move, distanceFromCoordToOpponentHead(opponent, nextMyHeadCoord))
             }
         }
     }
     
     const safeMoves = possibleMoves.filter(move => !notSafeMoves.includes(move));
-    console.log(possibleMoves, safeMoves)
     return safeMoves;
 }
 
 export function coordHasMySnake(gameState: GameState, coord: Coord): boolean {
     const mySnake = gameState.you;
     if (bodyHasCoord(mySnake.body, coord) || mySnake.head == coord) {
-        console.log(coord, "has me")
         return true;
     }
     return false;
@@ -57,7 +54,6 @@ export function coordHasOpponent(gameState: GameState, coord: Coord): boolean {
     const opponents = gameState.board.snakes;
     opponents.forEach((opponent) => {
         if (bodyHasCoord(opponent.body, coord)) {
-            console.log(coord, "has opponent")
             return true;
         }
     });

@@ -32,8 +32,6 @@ export class EscapeService {
       console.log("after", row)
       vicinity[index] = row;
       index++;
-      // vicinity.pop
-      // vicinity.push(row.slice(indicesToSplice.left, indicesToSplice.right));
     }
 
     console.log(vicinity)//, this.gameBoard)
@@ -54,10 +52,10 @@ export class EscapeService {
       indices.left = start.x - this.vicinityRadius;
     }
 
-    if (start.x + this.vicinityRadius >= gameState.board.width) {
+    if (start.x + this.vicinityRadius + 1 >= gameState.board.width) {
       indices.right = gameState.board.width;
     } else {
-      indices.right = start.x + this.vicinityRadius;
+      indices.right = start.x + this.vicinityRadius + 1;
     }
 
     if (start.y - this.vicinityRadius < 0) {
@@ -66,10 +64,10 @@ export class EscapeService {
       indices.down = start.y - this.vicinityRadius;
     }
 
-    if (start.y + this.vicinityRadius >= gameState.board.height) {
+    if (start.y + this.vicinityRadius+1 >= gameState.board.height) {
       indices.up = gameState.board.height;
     } else {
-      indices.up = start.y + this.vicinityRadius;
+      indices.up = start.y + this.vicinityRadius + 1;
     }
 
     return indices;

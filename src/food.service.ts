@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GameState } from './types';
-import { Move, calculateDistance, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
+import { Move, SafeMoves, calculateDistance, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
 
 @Injectable()
 export class FoodService {
@@ -28,19 +28,22 @@ export class FoodService {
     return suggestedMoves;
   }
 
-  public lookAheadConservative(gameState: GameState, possibleMoves: Move[]): Move {
+  public lookAheadConservative(gameState: GameState, possibleMoves: Move[]): [SafeMoves[], Move] {
     let moveWithMostSafeMoves = null;
+    let movesWithNumberOfSafeMoves = [];
     let mostAmountOfFutureSafeMoves = 0;
     let numberOfFutureSafeMoves = 0;
     for (const move of possibleMoves) {
       const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
       numberOfFutureSafeMoves = getNumberOfSafeMovesAtCoord(gameState, nextMyHeadCoord);
+      movesWithNumberOfSafeMoves.push({move: move, numOfSafeMoves: numberOfFutureSafeMoves});
       console.log(move, nextMyHeadCoord, numberOfFutureSafeMoves)
       if (numberOfFutureSafeMoves > mostAmountOfFutureSafeMoves) {
         mostAmountOfFutureSafeMoves = numberOfFutureSafeMoves;
         moveWithMostSafeMoves = move;
       }
     }
-    return moveWithMostSafeMoves;
+    console.log(movesWithNumberOfSafeMoves, moveWithMostSafeMoves)
+    return [movesWithNumberOfSafeMoves, moveWithMostSafeMoves];
   }
 }

@@ -11,7 +11,6 @@ export class AttackService {
     const myHead = gameState.you.head;
 
     if (opponent == null) {
-      console.log("opponent is null")
       return [];
     }
     const currentDistance = calculateDistance(opponent.head, myHead)

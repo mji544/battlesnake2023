@@ -7,6 +7,11 @@ export enum Move {
     LEFT = "left",
 }
 
+export interface SafeMoves {
+    move: Move,
+    numOfSafeMoves: number,
+}
+
 export function calculateDistance(a: Coord, b: Coord): number {
     // number of spaces
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);

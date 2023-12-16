@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves } from './utils';
 
 @Injectable()
 export class DefaultService {
@@ -10,15 +10,19 @@ export class DefaultService {
 
   constructor() {}
 
-  public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: Move, closestOpponent: Battlesnake): Move {
-    let commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
+  public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
+    const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     console.log("common moves: " + commonMoves)
     
-    if (suggestedMoveForConservative != null) {
-      console.log("Taking conservative move");
-      return suggestedMoveForConservative;
+    if (commonMoves.length > 1) {
+      for (const move of commonMoves) {
+        if (suggestedMoveForConservative[1] == move) {
+          console.log("Taking conservative move");
+          return suggestedMoveForConservative[1];
+        }
+      }
     }
-    if (commonMoves.length > 0) {
+    if (commonMoves.length == 1) {
       console.log("Taking first common move");
       return commonMoves[0];
     }

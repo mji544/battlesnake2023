@@ -54,6 +54,6 @@ export class StrategyService {
     // Check to see if not, then can move to follow the tail
     let suggestedMove = this.foodService.lookAheadConservative(gameState, availableMoves);
 
-    return { move: suggestedMove };
+    return { move: suggestedMove[1] };
   }
 }

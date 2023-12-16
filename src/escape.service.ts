@@ -16,6 +16,7 @@ export class EscapeService {
 
   public takeEscapeRoute(gameState: GameState): SpaceContains[][] | null {
     const vicinityBoard = this.getVicinityBoard(gameState);
+    const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
     const myHeadCoord = gameState.you.head;
 
     const rows = vicinityBoard.length;
@@ -25,7 +26,7 @@ export class EscapeService {
     const visited: boolean[][] = Array.from({ length: vicinityBoard.length }, () => Array(vicinityBoard[0].length).fill(false));
 
     // Use DFS to find a continuous, connecting path
-    if (this.dfs(myHeadCoord, vicinityBoard, visited)) {
+    if (this.dfs(myHeadVicinityCoord, vicinityBoard, visited, myHeadCoord)) {
       console.log(visited)
       console.log("somethingg")
       // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
@@ -103,7 +104,7 @@ export class EscapeService {
     return indices;
   }
 
-  private dfs(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][]): boolean {
+  private dfs(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], myHeadCoordOnBoard: Coord): boolean {
     const rows = vicinityBoard.length;
     const cols = vicinityBoard[0].length;
     const x = startingPoint.x;
@@ -116,18 +117,31 @@ export class EscapeService {
   
     visited[x][y] = true;
   
-    // If the current cell is the destination (a cell with the value 0)
-    if (vicinityBoard[x][y] == SpaceContains.MY_HEAD) {
-      console.log("returned true", x, y)
+    // // If the current cell is the destination (a cell with the value 0)
+    // if (vicinityBoard[x][y] == SpaceContains.MY_HEAD) {
+    //   console.log("returned true", x, y)
+    //   return true;
+    // }
+
+    // If the current cell is on the border of the grid
+    if (x === 0 || x === rows - 1 || y === 0 || y === cols - 1) {
       return true;
     }
 
     // Recursively check adjacent positions
     return (
-      this.dfs({x: x - 1, y: y}, vicinityBoard, visited) ||
-      this.dfs({x: x + 1, y: y}, vicinityBoard, visited) ||
-      this.dfs({x: x, y: y - 1}, vicinityBoard, visited) ||
-      this.dfs({x: x, y: y + 1}, vicinityBoard, visited)
+      this.dfs({x: x - 1, y: y}, vicinityBoard, visited, myHeadCoordOnBoard) ||
+      this.dfs({x: x + 1, y: y}, vicinityBoard, visited, myHeadCoordOnBoard) ||
+      this.dfs({x: x, y: y - 1}, vicinityBoard, visited, myHeadCoordOnBoard) ||
+      this.dfs({x: x, y: y + 1}, vicinityBoard, visited, myHeadCoordOnBoard)
     );
+  }
+
+  private getMyHeadBoardCoord(vicinityBoard: SpaceContains[][]): Coord {
+    for (let rowIndex = 0; rowIndex < vicinityBoard.length; rowIndex++) {
+      if (vicinityBoard[rowIndex].indexOf(SpaceContains.MY_HEAD) != -1) {
+        return {x: rowIndex, y: vicinityBoard[rowIndex].indexOf(SpaceContains.MY_HEAD)}
+      }
+    }
   }
 }

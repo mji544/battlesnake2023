@@ -27,8 +27,10 @@ export class EscapeService {
     vicinity = vicinity.splice(gameState.board.height-indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
     for (let row of vicinity) {
       console.log("before", row)
-      row.splice(indicesToSplice.left, indicesToSplice.right-indicesToSplice.left);
+      row = row.slice(indicesToSplice.left, indicesToSplice.right);
       console.log("after", row)
+      // vicinity.pop
+      // vicinity.push(row.slice(indicesToSplice.left, indicesToSplice.right));
     }
 
     // console.log(vicinity, this.gameBoard)

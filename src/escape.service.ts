@@ -125,7 +125,7 @@ export class EscapeService {
     // }
 
     // If the current cell is on the border of the grid
-    if (x === 0 || x === rows - 1 || y === 0 || y === cols - 1) {
+    if (x === 0 || x === rows - 1 || y === 0 || y === cols - 1 || vicinityBoard[x][y] == SpaceContains.MY_HEAD) {
       return true;
     }
 
@@ -141,7 +141,7 @@ export class EscapeService {
   private getMyHeadBoardCoord(vicinityBoard: SpaceContains[][]): Coord {
     for (let rowIndex = 0; rowIndex < vicinityBoard.length; rowIndex++) {
       if (vicinityBoard[rowIndex].indexOf(SpaceContains.MY_HEAD) != -1) {
-        return {x: rowIndex, y: vicinityBoard[rowIndex].indexOf(SpaceContains.MY_HEAD)}
+        return {x: vicinityBoard[rowIndex].indexOf(SpaceContains.MY_HEAD), y: rowIndex}
       }
     }
   }

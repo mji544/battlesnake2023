@@ -22,13 +22,16 @@ export class EscapeService {
     //look four square radius
     let vicinity = [...this.gameBoard];
     const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, myHeadCoord);
+    console.log("indices", indicesToSplice)
     // splice rows
     vicinity = vicinity.splice(gameState.board.height-indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
     for (let row of vicinity) {
+      console.log("before", row)
       row.splice(indicesToSplice.left, indicesToSplice.right-indicesToSplice.left);
+      console.log("after", row)
     }
 
-    console.log(vicinity, this.gameBoard)
+    // console.log(vicinity, this.gameBoard)
   }
 
   private takeLongestRoute(gameState: GameState) {

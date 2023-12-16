@@ -15,7 +15,7 @@ export class DefaultService {
     console.log("common moves: " + commonMoves)
     
     if (commonMoves.length > 1) {
-      for (const move of commonMoves) {
+      for (let move of commonMoves) {
         if (suggestedMoveForConservative[1] == move) {
           console.log("Taking conservative move");
           return suggestedMoveForConservative[1];
@@ -54,7 +54,7 @@ export class DefaultService {
     let notSafeMoves: Move[] = [];
     const myHead = gameState.you.head;
 
-    for (const move of currentSafeMoves) {
+    for (let move of currentSafeMoves) {
       if (coordOutOfBounds(gameState, nextCoordAfterMove({ move: move }, myHead))) {
         notSafeMoves.push(move);
       }
@@ -70,7 +70,7 @@ export class DefaultService {
     const myHead = gameState.you.head;
     const myBody = gameState.you.body;
 
-    for (const move of currentSafeMoves) {
+    for (let move of currentSafeMoves) {
       const nextCoord = nextCoordAfterMove({ move: move }, myHead);
       if (bodyHasCoord(myBody, nextCoord)) {
         notSafeMoves.push(move);
@@ -85,7 +85,7 @@ export class DefaultService {
     let safeMoves: Move[] = [];
     let notSafeMoves: Move[] = [];
     const myHead = gameState.you.head;
-    for (const move of currentSafeMoves) {
+    for (let move of currentSafeMoves) {
       if (coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead))) {
         notSafeMoves.push(move);
       }

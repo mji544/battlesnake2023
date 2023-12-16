@@ -19,7 +19,7 @@ export class FoodService {
       }
     });
 
-    for (const move of currentSafeMoves) {
+    for (let move of currentSafeMoves) {
       if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), closestFood) < distanceToClosestFood) {
         suggestedMoves.push(move);
       }
@@ -33,7 +33,7 @@ export class FoodService {
     let movesWithNumberOfSafeMoves = [];
     let mostAmountOfFutureSafeMoves = 0;
     let numberOfFutureSafeMoves = 0;
-    for (const move of possibleMoves) {
+    for (let move of possibleMoves) {
       const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
       numberOfFutureSafeMoves = getNumberOfSafeMovesAtCoord(gameState, nextMyHeadCoord);
       movesWithNumberOfSafeMoves.push({move: move, numOfSafeMoves: numberOfFutureSafeMoves});

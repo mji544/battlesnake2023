@@ -15,7 +15,7 @@ export class AttackService {
     }
     const currentDistance = calculateDistance(opponent.head, myHead)
 
-    for (const move of currentSafeMoves) {
+    for (let move of currentSafeMoves) {
       if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), opponent.head) < currentDistance) {
         safeMoves.push(move);
       }

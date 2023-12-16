@@ -12,6 +12,13 @@ export interface SafeMoves {
     numOfSafeMoves: number,
 }
 
+export enum SpaceContains {
+    OPPONENT = "o",
+    FOOD = "f",
+    ME = "m",
+    EMPTY = "x"
+}
+
 export function calculateDistance(a: Coord, b: Coord): number {
     // number of spaces
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -31,7 +38,7 @@ export function nextCoordAfterMove(moveDirection: MoveResponse, currentHeadCoord
 
 export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]): Move[] {
     let notSafeMoves: Move[] = [];
-    for (const move of possibleMoves) {
+    for (let move of possibleMoves) {
         const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
         for (let opponent of gameState.board.snakes) {
             if (opponent.id == gameState.you.id) {
@@ -79,7 +86,7 @@ export function distanceFromCoordToOpponentHead(opponent: Battlesnake, coord: Co
 export function getNumberOfSafeMovesAtCoord(gameState: GameState, coord: Coord): number {
     let moves = [ Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT ];
     let safeMoves: Move[] = [];
-    for (const move of moves) {
+    for (let move of moves) {
         let moveCoord = nextCoordAfterMove({ move: move }, coord);
         if (!coordHasOpponent(gameState, moveCoord) && !coordOutOfBounds(gameState, moveCoord) && !coordHasMySnake(gameState, coord)) {
             safeMoves.push(move);
@@ -89,7 +96,7 @@ export function getNumberOfSafeMovesAtCoord(gameState: GameState, coord: Coord):
 }
 
 export function bodyHasCoord(body: Coord[], coord: Coord): boolean {
-    for (const bodyPart of body) {
+    for (let bodyPart of body) {
         if (coord.x == bodyPart.x && coord.y == bodyPart.y) {
             return true;
         }

@@ -25,15 +25,18 @@ export class EscapeService {
     console.log("indices", indicesToSplice)
     // splice rows
     vicinity = vicinity.splice(gameState.board.height-indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
+    let index = 0;
     for (let row of vicinity) {
       console.log("before", row)
       row = row.slice(indicesToSplice.left, indicesToSplice.right);
       console.log("after", row)
+      vicinity[index] = row;
+      index++;
       // vicinity.pop
       // vicinity.push(row.slice(indicesToSplice.left, indicesToSplice.right));
     }
 
-    // console.log(vicinity, this.gameBoard)
+    console.log(vicinity)//, this.gameBoard)
   }
 
   private takeLongestRoute(gameState: GameState) {

@@ -14,7 +14,7 @@ export class EscapeService {
     
   }
 
-  public takeEscapeRoute(gameState: GameState) {
+  public takeEscapeRoute(gameState: GameState): SpaceContains[][] | null {
     const vicinityBoard = this.getVicinityBoard(gameState);
     const myHeadCoord = gameState.you.head;
 
@@ -24,7 +24,7 @@ export class EscapeService {
     // Use DFS to find a continuous, connecting path
     if (this.dfs(myHeadCoord, vicinityBoard, visited)) {
       console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : 0))))
-      return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : 0)));
+      return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD)));
     } else {
       return null; // No valid path found
     }

@@ -21,37 +21,17 @@ export class EscapeService {
     const rows = vicinityBoard.length;
     const cols = vicinityBoard[0].length;
 
-    // // Find the starting point (0)
-    // let startRow = -1;
-    // let startCol = -1;
-
-    // for (let i = 0; i < rows; i++) {
-    //   for (let j = 0; j < cols; j++) {
-    //     if (vicinityBoard[i][j] === SpaceContains.EMPTY || vicinityBoard[i][j] === SpaceContains.FOOD) {
-    //       startRow = i;
-    //       startCol = j;
-    //       break;
-    //     }
-    //   }
-    //   if (startRow !== -1) {
-    //     break;
-    //   }
-    // }
-
-    // // If starting point not found
-    // if (startRow === -1) {
-    //   return null;
-    // }
-
     // Initialize a 2D array to keep track of visited cells
     const visited: boolean[][] = Array.from({ length: vicinityBoard.length }, () => Array(vicinityBoard[0].length).fill(false));
 
     // Use DFS to find a continuous, connecting path
     if (this.dfs(myHeadCoord, vicinityBoard, visited)) {
+      console.log(visited)
       console.log("somethingg")
       // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
       return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD)));
     } else {
+      console.log(visited)
       console.log("vissss")//, visited)
       return null; // No valid path found
     }
@@ -75,7 +55,7 @@ export class EscapeService {
       vicinity[index] = row;
       index++;
     }
-    // console.log(vicinity)
+    console.log(vicinity)
     return vicinity;
   }
 

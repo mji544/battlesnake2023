@@ -23,20 +23,20 @@ export class StrategyService {
       console.log(`MOVE ${gameState.turn}: No safe moves detected! Moving down`);
       return { move: "down" };
     }
-    console.log("availableMoves:", availableMoves)
+    // console.log("availableMoves:", availableMoves)
 
     const closestOpponent = this.attackService.findClosestEdibleOpponent(gameState);
 
     const suggestedMovesForFood = this.foodService.moveTowardsClosestFood(gameState, availableMoves);
     const suggestedMovesForAttack = this.attackService.moveTowardsOpponent(gameState, availableMoves, closestOpponent);
     
-    console.log("possible attack/food", suggestedMovesForAttack, suggestedMovesForFood)
+    // console.log("possible attack/food", suggestedMovesForAttack, suggestedMovesForFood)
 
     const lookAheadForFood = lookAheadForOpponent(gameState, suggestedMovesForFood);
     const lookAheadForAttack = lookAheadForOpponent(gameState, suggestedMovesForAttack);
     const lookAheadForConservative = this.foodService.lookAheadConservative(gameState, availableMoves);
 
-    console.log("lookahead attack/food", lookAheadForAttack, lookAheadForFood)
+    // console.log("lookahead attack/food", lookAheadForAttack, lookAheadForFood)
     const suggestedMove = this.defaultService.getDefaultSuggestedMove(gameState, lookAheadForFood, lookAheadForAttack, lookAheadForConservative, closestOpponent);
 
     this.escapeService.takeEscapeRoute(gameState);

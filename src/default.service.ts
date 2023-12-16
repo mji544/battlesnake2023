@@ -15,7 +15,7 @@ export class DefaultService {
     const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
     const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
     const conservativeMovesForFoodObj = suggestedMoveForConservative[0].filter(value => suggestedForFood.includes(value.move));
-    console.log("common moves: " + commonMoves, conservativeMovesObj)
+    // console.log("common moves: " + commonMoves, conservativeMovesObj)
     
 
     if (conservativeMovesObj.length != 0) {

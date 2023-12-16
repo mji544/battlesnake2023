@@ -12,16 +12,18 @@ export class DefaultService {
 
   public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
     const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
-    console.log("common moves: " + commonMoves)
+    const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move));
+    const conservativeMovesForFoodObj = suggestedMoveForConservative[0].filter(value => suggestedForFood.includes(value.move));
+    console.log("common moves: " + commonMoves, conservativeMovesForAttackObj, conservativeMovesForFoodObj)
     
-    if (commonMoves.length > 1) {
-      for (let move of commonMoves) {
-        if (suggestedMoveForConservative[1] == move) {
-          console.log("Taking conservative move");
-          return suggestedMoveForConservative[1];
-        }
-      }
-    }
+    // if (commonMoves.length > 1) {
+    //   for (let move of commonMoves) {
+    //     if (suggestedMoveForConservative[1] == move) {
+    //       console.log("Taking conservative move");
+    //       return suggestedMoveForConservative[1];
+    //     }
+    //   }
+    // }
     if (commonMoves.length == 1) {
       console.log("Taking first common move");
       return commonMoves[0];

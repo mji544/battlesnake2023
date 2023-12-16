@@ -10,10 +10,14 @@ export class DefaultService {
 
   constructor() {}
 
-  public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], closestOpponent: Battlesnake): Move {
+  public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: Move, closestOpponent: Battlesnake): Move {
     let commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     console.log("common moves: " + commonMoves)
     
+    if (suggestedMoveForConservative != null) {
+      console.log("Taking conservative move");
+      return suggestedMoveForConservative;
+    }
     if (commonMoves.length > 0) {
       console.log("Taking first common move");
       return commonMoves[0];

@@ -29,7 +29,7 @@ export class FoodService {
   }
 
   public lookAheadConservative(gameState: GameState, possibleMoves: Move[]): Move {
-    let moveWithMostSafeMoves = Move.RIGHT;
+    let moveWithMostSafeMoves = null;
     let mostAmountOfFutureSafeMoves = 0;
     let numberOfFutureSafeMoves = 0;
     for (const move of possibleMoves) {

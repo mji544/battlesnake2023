@@ -32,9 +32,10 @@ export class StrategyService {
 
     const lookAheadForFood = lookAheadForOpponent(gameState, suggestedMovesForFood);
     const lookAheadForAttack = lookAheadForOpponent(gameState, suggestedMovesForAttack);
+    const lookAheadForConservative = this.foodService.lookAheadConservative(gameState, availableMoves);
 
     console.log("lookahead attack/food", lookAheadForAttack, lookAheadForFood)
-    const suggestedMove = this.defaultService.getDefaultSuggestedMove(gameState, lookAheadForFood, lookAheadForAttack, closestOpponent);
+    const suggestedMove = this.defaultService.getDefaultSuggestedMove(gameState, lookAheadForFood, lookAheadForAttack, lookAheadForConservative, closestOpponent);
 
     console.log(`MOVE ${gameState.turn}: ${suggestedMove}`)
     return { move: suggestedMove };

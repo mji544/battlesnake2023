@@ -65,7 +65,7 @@ export class EscapeService {
     const vicinityBoard = this.getVicinityBoard(gameState);
     const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
     const myHeadCoord = gameState.you.head;
-    console.log(myHeadCoord, myHeadVicinityCoord);
+    console.log(myHeadCoord, myHeadVicinityCoord, "here");
 
     const rows = vicinityBoard.length;
     const cols = vicinityBoard[0].length;

@@ -31,7 +31,7 @@ export class EscapeService {
       console.log(visited)
       console.log("somethingg", visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD))))
       // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
-      return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD)));
+      return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.ESCAPE_PATH)));
     } else {
       console.log(visited)
       console.log("vissss")//, visited)
@@ -61,8 +61,31 @@ export class EscapeService {
     return vicinity;
   }
 
-  private takeLongestRoute(gameState: GameState) {
+  public findLongestRoute(gameState: GameState) {
+    const vicinityBoard = this.getVicinityBoard(gameState);
+    const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
+    const myHeadCoord = gameState.you.head;
+    console.log(myHeadCoord, myHeadVicinityCoord);
 
+    const rows = vicinityBoard.length;
+    const cols = vicinityBoard[0].length;
+    
+    // Initialize a 2D array to keep track of visited cells
+    const visited: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
+  
+    // Initialize an empty array to store the longest path
+    let longestPath: number[][] = [];
+  
+    // Use DFS to find the longest continuous, connecting path
+    longestPath = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, []);
+  
+    // If no valid path is found, return null
+    if (longestPath.length === 0) {
+      return null;
+    }
+    console.log("longest path:", longestPath)
+  
+    return longestPath;
   }
 
   private followTail(gameState: GameState) {
@@ -117,15 +140,9 @@ export class EscapeService {
     }
   
     visited[x][y] = true;
-  
-    // // If the current cell is the destination (a cell with the value 0)
-    // if (vicinityBoard[x][y] == SpaceContains.MY_HEAD) {
-    //   console.log("returned true", x, y)
-    //   return true;
-    // }
 
     // If the current cell is on the border of the grid
-    if (x === 0 || x === rows - 1 || y === 0 || y === cols - 1 || vicinityBoard[x][y] == SpaceContains.MY_HEAD) {
+    if (x === 0 || x === rows - 1 || y === 0 || y === cols - 1) {
       return true;
     }
 
@@ -136,6 +153,41 @@ export class EscapeService {
       this.dfs({x: x, y: y - 1}, vicinityBoard, visited, myHeadCoordOnBoard) ||
       this.dfs({x: x, y: y + 1}, vicinityBoard, visited, myHeadCoordOnBoard)
     );
+  }
+
+  private dfsLongestPath(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], currentPath: number[][]): number[][] {
+    const rows = vicinityBoard.length;
+    const cols = vicinityBoard[0].length;
+    const x = startingPoint.x;
+    const y = startingPoint.y;
+
+    // Check if the current position is within the grid and is an available space
+    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || vicinityBoard[x][y] != SpaceContains.EMPTY && vicinityBoard[x][y] != SpaceContains.FOOD) {
+      return currentPath;
+    }
+
+    // Mark the current cell as visited
+    visited[x][y] = true;
+
+    // Add the current cell to the current path
+    currentPath.push([x, y]);
+
+    // Recursively check adjacent positions
+    const nextPath = [
+      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, currentPath) ||
+      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, currentPath) ||
+      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, currentPath) ||
+      this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, currentPath)
+    ];
+
+    // Find the longest path among the recursive results
+    const longestPath = nextPath.reduce((longest, path) => (path.length > longest.length ? path : longest), []);
+
+    // Backtrack: mark the current cell as unvisited and remove it from the current path
+    visited[x][y] = false;
+    currentPath.pop();
+
+    return longestPath;
   }
 
   private getMyHeadBoardCoord(vicinityBoard: SpaceContains[][]): Coord {

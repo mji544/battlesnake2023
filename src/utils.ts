@@ -18,7 +18,8 @@ export enum SpaceContains {
     FOOD = "f",
     ME = "m",
     MY_HEAD = "mh",
-    EMPTY = "x"
+    EMPTY = "x",
+    ESCAPE_PATH = "ep",
 }
 
 export interface SplicingIndices {

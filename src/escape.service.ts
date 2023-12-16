@@ -18,12 +18,12 @@ export class EscapeService {
     this.checkIfTrapped();
     const myHeadCoord = gameState.you.head;
     //treat everything else as a barrier
-    
+    //follow tail FIXME
     //look four square radius
     let vicinity = this.gameBoard;
     const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, myHeadCoord);
     // splice rows
-    vicinity = vicinity.splice(indicesToSplice.down, indicesToSplice.up-indicesToSplice.down);
+    vicinity = vicinity.splice(indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
     for (let row of vicinity) {
       row.splice(indicesToSplice.left, indicesToSplice.right-indicesToSplice.left);
     }

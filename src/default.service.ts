@@ -78,6 +78,7 @@ export class DefaultService {
     const myHead = gameState.you.head;
     for (const move of currentSafeMoves) {
       if (!coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead))) {
+        console.log(!coordHasOpponent(gameState, nextCoordAfterMove({ move: move }, myHead)), move)
         safeMoves.push(move);
       }
     };

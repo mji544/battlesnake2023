@@ -21,6 +21,7 @@ export class StrategyService {
       console.log(`MOVE ${gameState.turn}: No safe moves detected! Moving down`);
       return { move: "down" };
     }
+    console.log("availableMoves:", availableMoves)
 
     const closestOpponent = this.attackService.findClosestEdibleOpponent(gameState);
 

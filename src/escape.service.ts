@@ -15,6 +15,7 @@ export class EscapeService {
   }
 
   public takeEscapeRoute(gameState: GameState) {
+    this.checkIfTrapped();
     const myHeadCoord = gameState.you.head;
     //treat everything else as a barrier
     

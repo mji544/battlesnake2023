@@ -14,30 +14,30 @@ export class EscapeService {
     
   }
 
-  public takeEscapeRoute(gameState: GameState): SpaceContains[][] | null {
-    const vicinityBoard = this.getVicinityBoard(gameState);
-    const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
-    const myHeadCoord = gameState.you.head;
-    console.log(myHeadCoord, myHeadVicinityCoord);
+  // public takeEscapeRoute(gameState: GameState): SpaceContains[][] | null {
+  //   const vicinityBoard = this.getVicinityBoard(gameState);
+  //   const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
+  //   const myHeadCoord = gameState.you.head;
+  //   console.log(myHeadCoord, myHeadVicinityCoord);
 
-    const rows = vicinityBoard.length;
-    const cols = vicinityBoard[0].length;
+  //   const rows = vicinityBoard.length;
+  //   const cols = vicinityBoard[0].length;
 
-    // Initialize a 2D array to keep track of visited cells
-    const visited: boolean[][] = Array.from({ length: vicinityBoard.length }, () => Array(vicinityBoard[0].length).fill(false));
+  //   // Initialize a 2D array to keep track of visited cells
+  //   const visited: boolean[][] = Array.from({ length: vicinityBoard.length }, () => Array(vicinityBoard[0].length).fill(false));
 
-    // Use DFS to find a continuous, connecting path
-    if (this.dfs(myHeadVicinityCoord, vicinityBoard, visited, myHeadCoord)) { //{x: rows, y: cols}
-      console.log(visited)
-      console.log("somethingg", visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD))))
-      // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
-      return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.ESCAPE_PATH)));
-    } else {
-      console.log(visited)
-      console.log("vissss")//, visited)
-      return null; // No valid path found
-    }
-  }
+  //   // Use DFS to find a continuous, connecting path
+  //   if (this.dfs(myHeadVicinityCoord, vicinityBoard, visited, myHeadCoord)) { //{x: rows, y: cols}
+  //     console.log(visited)
+  //     console.log("somethingg", visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.MY_HEAD))))
+  //     // console.log("other", visited, "something", visited.map((row, rowIndex) => row.map((cell, colIndex) => (vicinityBoard[rowIndex][colIndex]))))
+  //     return visited.map((row, rowIndex) => row.map((cell, colIndex) => (cell ? vicinityBoard[rowIndex][colIndex] : SpaceContains.ESCAPE_PATH)));
+  //   } else {
+  //     console.log(visited)
+  //     console.log("vissss")//, visited)
+  //     return null; // No valid path found
+  //   }
+  // }
 
   public getVicinityBoard(gameState: GameState): SpaceContains[][] {
     this.gameBoard = this.boardService.board;
@@ -61,7 +61,7 @@ export class EscapeService {
     return vicinity;
   }
 
-  public findLongestRoute(gameState: GameState): number[][] {
+  public findLongestRoute(gameState: GameState): Coord[] {
     const vicinityBoard = this.getVicinityBoard(gameState);
     const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
     const myHeadCoord = gameState.you.head;
@@ -74,7 +74,7 @@ export class EscapeService {
     const visited: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
   
     // Initialize an empty array to store the longest path
-    let longestPath: number[][] = [];
+    let longestPath: Coord[] = [];
   
     // Use DFS to find the longest continuous, connecting path
     longestPath = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, []);
@@ -155,7 +155,7 @@ export class EscapeService {
     );
   }
 
-  private dfsLongestPath(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], currentPath: number[][]): number[][] {
+  private dfsLongestPath(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], currentPath: Coord[]): Coord[] {
     const rows = vicinityBoard.length;
     const cols = vicinityBoard[0].length;
     const x = startingPoint.x;
@@ -170,7 +170,7 @@ export class EscapeService {
     visited[x][y] = true;
 
     // Add the current cell to the current path
-    currentPath.push([x, y]);
+    currentPath.push(startingPoint);
 
     // Recursively check adjacent positions
     const nextPath = [

@@ -79,11 +79,11 @@ export class EscapeService {
     // Use DFS to find the longest continuous, connecting path
     longestPath = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, []);
   
+    console.log("longest path:", longestPath)
     // If no valid path is found, return null
     if (longestPath.length === 0) {
       return null;
     }
-    console.log("longest path:", longestPath)
   
     return longestPath;
   }
@@ -182,6 +182,8 @@ export class EscapeService {
 
     // Find the longest path among the recursive results
     const longestPath = nextPath.reduce((longest, path) => (path.length > longest.length ? path : longest), []);
+
+    console.log(longestPath, currentPath)
 
     // Backtrack: mark the current cell as unvisited and remove it from the current path
     visited[x][y] = false;

@@ -48,11 +48,11 @@ export class EscapeService {
     let vicinity = [...this.gameBoard];
     const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, myHeadCoord);
 
-    vicinity = vicinity.splice(gameState.board.height-indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
+    vicinity = vicinity.slice(gameState.board.height-indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
     let index = 0;
     for (let row of vicinity) {
       // console.log("before", row)
-      row = row.slice(indicesToSplice.left, indicesToSplice.right);
+      row = row.slice(indicesToSplice.left, indicesToSplice.right-indicesToSplice.left);
       // console.log("after", row)
       vicinity[index] = row;
       index++;
@@ -162,7 +162,7 @@ export class EscapeService {
     const y = startingPoint.y;
 
     // Check if the current position is within the grid and is an available space
-    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || vicinityBoard[x][y] != SpaceContains.EMPTY && vicinityBoard[x][y] != SpaceContains.FOOD) {
+    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || (vicinityBoard[x][y] != SpaceContains.EMPTY && vicinityBoard[x][y] != SpaceContains.FOOD)) {
       return currentPath;
     }
 
@@ -183,7 +183,7 @@ export class EscapeService {
     // Find the longest path among the recursive results
     const longestPath = nextPath.reduce((longest, path) => (path.length > longest.length ? path : longest), []);
 
-    console.log(longestPath, currentPath)
+    // console.log(longestPath, currentPath)
 
     // Backtrack: mark the current cell as unvisited and remove it from the current path
     visited[x][y] = false;

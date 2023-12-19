@@ -6,7 +6,7 @@ import { BoardService } from './board.service';
 @Injectable()
 export class EscapeService {
   gameBoard: SpaceContains[][];
-  vicinityRadius = 2;
+  vicinityRadius = 3;
 
   constructor(private boardService: BoardService) {}
 

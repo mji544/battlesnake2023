@@ -162,12 +162,12 @@ export class EscapeService {
     const y = startingPoint.y;
 
     // Check if the current position is within the grid and is an available space
-    if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || (vicinityBoard[x][y] != SpaceContains.EMPTY && vicinityBoard[x][y] != SpaceContains.FOOD)) {
+    if (y < 0 || y >= rows || x < 0 || x >= cols || visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD)) {
       return currentPath.slice();
     }
 
     // Mark the current cell as visited
-    visited[x][y] = true;
+    visited[y][x] = true;
 
     // Add the current cell to the current path
     currentPath.push(startingPoint);
@@ -186,7 +186,7 @@ export class EscapeService {
     // console.log(longestPath, currentPath)
 
     // Backtrack: mark the current cell as unvisited and remove it from the current path
-    visited[x][y] = false;
+    visited[y][x] = false;
     currentPath.pop();
 
     return longestPath;

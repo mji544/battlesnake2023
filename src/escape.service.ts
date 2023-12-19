@@ -48,11 +48,11 @@ export class EscapeService {
     let vicinity = [...this.gameBoard];
     const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, myHeadCoord);
 
-    vicinity = vicinity.slice(gameState.board.height-indicesToSplice.up, indicesToSplice.up-indicesToSplice.down);
+    vicinity = vicinity.slice(gameState.board.height-indicesToSplice.up, gameState.board.height-indicesToSplice.down);
     let index = 0;
     for (let row of vicinity) {
       // console.log("before", row)
-      row = row.slice(indicesToSplice.left, indicesToSplice.right-indicesToSplice.left);
+      row = row.slice(indicesToSplice.left, indicesToSplice.right);
       // console.log("after", row)
       vicinity[index] = row;
       index++;

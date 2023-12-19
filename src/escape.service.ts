@@ -163,7 +163,7 @@ export class EscapeService {
 
     // Check if the current position is within the grid and is an available space
     if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || (vicinityBoard[x][y] != SpaceContains.EMPTY && vicinityBoard[x][y] != SpaceContains.FOOD)) {
-      return [];//currentPath.slice();
+      return currentPath.slice();
     }
 
     // Mark the current cell as visited
@@ -174,10 +174,10 @@ export class EscapeService {
 
     // Recursively check adjacent positions
     const nextPath = [
-      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, currentPath),
-      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, currentPath),
-      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, currentPath),
-      this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, currentPath)
+      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, [...currentPath]),
+      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, [...currentPath]),
+      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, [...currentPath]),
+      this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, [...currentPath])
     ];
 
     // Find the longest path among the recursive results

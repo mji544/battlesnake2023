@@ -163,7 +163,7 @@ export class EscapeService {
 
     // Check if the current position is within the grid and is an available space
     if (y < 0 || y >= rows || x < 0 || x >= cols || visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD)) {
-      return currentPath.slice();
+      return currentPath;
     }
 
     // Mark the current cell as visited

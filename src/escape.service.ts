@@ -6,7 +6,7 @@ import { BoardService } from './board.service';
 @Injectable()
 export class EscapeService {
   gameBoard: SpaceContains[][];
-  vicinityRadius = 3;
+  vicinityRadius = 2;
 
   constructor(private boardService: BoardService) {}
 
@@ -74,7 +74,7 @@ export class EscapeService {
     const visited: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
   
     // Initialize an empty array to store the longest path
-    let longestPath: Coord[] = [];
+    let longestPath: number[][] = [];
   
     // Use DFS to find the longest continuous, connecting path
     longestPath = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, []);
@@ -85,7 +85,7 @@ export class EscapeService {
       return null;
     }
   
-    return longestPath;
+    return null;//longestPath;
   }
 
   private followTail(gameState: GameState) {
@@ -155,7 +155,7 @@ export class EscapeService {
     );
   }
 
-  private dfsLongestPath(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], currentPath: Coord[]): Coord[] {
+  private dfsLongestPath(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], currentPath: number[][]): number[][] {
     const rows = vicinityBoard.length;
     const cols = vicinityBoard[0].length;
     const x = startingPoint.x;
@@ -170,7 +170,7 @@ export class EscapeService {
     visited[x][y] = true;
 
     // Add the current cell to the current path
-    currentPath.push(startingPoint);
+    currentPath.push([x,y]);//startingPoint);
 
     // Recursively check adjacent positions
     const nextPath = [

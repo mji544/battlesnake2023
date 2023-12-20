@@ -13,7 +13,8 @@ export class EscapeService {
               private foodService: FoodService) {}
 
   public checkIfMovePossiblyTraps(gameState: GameState, nextMove: Move): boolean {
-    if (this.findLongestRoute(gameState, nextCoordAfterMove({move: nextMove}, gameState.you.head)).length > 3) {
+    const path = this.findLongestRoute(gameState, nextCoordAfterMove({move: nextMove}, gameState.you.head));
+    if (path == null || path.length > 3) {
       return true;
     }
     return false;

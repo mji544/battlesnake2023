@@ -49,26 +49,26 @@ export class DefaultService {
       return commonMoves[0];
     }
     if (suggestedForAttack.length > 0 && closestOpponent != null) {
-      if (this.escapeSerivce.checkIfMovePossiblyTraps(gameState, suggestedForAttack[0])) {
+      if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, suggestedForAttack[0])) {
         console.log("Taking first attack move");
         return suggestedForAttack[0];
       }
     }
     if (suggestedForFood.length > 0) {
-      if (this.escapeSerivce.checkIfMovePossiblyTraps(gameState, suggestedForFood[0])) {
+      if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, suggestedForFood[0])) {
         console.log("Taking first food move");
         return suggestedForFood[0];
       }
-    }
-    if (suggestedMoveForConservative[1] != null) {
-      console.log("Taking move with highest number of future moves");
-      return suggestedMoveForConservative[1];
     }
 
     let lastResortMove = this.escapeSerivce.escape(gameState);
     if (lastResortMove != null) {
       console.log("Taking escape route: last resort");
       return lastResortMove;
+    }
+    if (suggestedMoveForConservative[1] != null) {
+      console.log("Taking move with highest number of future moves");
+      return suggestedMoveForConservative[1];
     }
 
     //Default move

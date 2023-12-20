@@ -27,7 +27,10 @@ export class DefaultService {
     if (suggestedForAttack.length == 0 && suggestedForFood.length == 0 
       && getNumberOfSafeMovesAtCoord(gameState, nextCoordAfterMove({move: suggestedMoveForConservative[1]}, gameState.you.head)) < 2) {
       console.log("Taking escape route");
-      return this.escapeSerivce.escape(gameState);
+      let possibleMove = this.escapeSerivce.escape(gameState);
+      if (possibleMove != null) {
+        return possibleMove;
+      } 
     }
     if (conservativeMovesObj.length != 0) {
       console.log("Taking first highest common conserv move");

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GameState, MoveResponse } from './types';
-import { lookAheadForOpponent } from './utils';
+import { lookAheadForOpponent, lookAheadForOpponentAndFood } from './utils';
 import { FoodService } from './food.service';
 import { AttackService } from './attack.service';
 import { DefaultService } from './default.service';
@@ -31,7 +31,7 @@ export class StrategyService {
     
     // console.log("possible attack/food", suggestedMovesForAttack, suggestedMovesForFood)
 
-    const lookAheadForFood = lookAheadForOpponent(gameState, suggestedMovesForFood);
+    const lookAheadForFood = lookAheadForOpponentAndFood(gameState, suggestedMovesForFood);
     const lookAheadForAttack = lookAheadForOpponent(gameState, suggestedMovesForAttack);
     const lookAheadForConservative = this.foodService.lookAheadConservative(gameState, availableMoves);
 

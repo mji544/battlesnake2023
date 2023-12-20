@@ -64,6 +64,20 @@ export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]
     return safeMoves;
 }
 
+export function lookAheadForOpponentAndFood(gameState: GameState, possibleMoves: Move[]): Move[] {
+    const safeMovesAfterOpponents = lookAheadForOpponent(gameState, possibleMoves);
+    let notSafeMoves: Move[] = [];
+    for (let move of safeMovesAfterOpponents) {
+        const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
+        if (getNumberOfSafeMovesAtCoord(gameState, nextMyHeadCoord) <= 1) {
+            notSafeMoves.push(move);
+        }
+    }
+    
+    const safeMoves = possibleMoves.filter(move => !notSafeMoves.includes(move));
+    return safeMoves;
+}
+
 export function coordHasMySnake(gameState: GameState, coord: Coord): boolean {
     const mySnake = gameState.you;
     if (bodyHasCoord(mySnake.body, coord) || mySnake.head == coord) {

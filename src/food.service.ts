@@ -42,12 +42,15 @@ export class FoodService {
     for (let move of possibleMoves) {
       const nextMyHeadCoord = nextCoordAfterMove({ move: move }, gameState.you.head)
       numberOfFutureSafeMoves = getNumberOfSafeMovesAtCoord(gameState, nextMyHeadCoord);
-      movesWithNumberOfSafeMoves.push({move: move, numOfSafeMoves: numberOfFutureSafeMoves});
-      if (numberOfFutureSafeMoves > mostAmountOfFutureSafeMoves) {
-        mostAmountOfFutureSafeMoves = numberOfFutureSafeMoves;
-        moveWithMostSafeMoves = move;
+      if (numberOfFutureSafeMoves != 0) {
+        movesWithNumberOfSafeMoves.push({move: move, numOfSafeMoves: numberOfFutureSafeMoves});
+        if (numberOfFutureSafeMoves > mostAmountOfFutureSafeMoves) {
+          mostAmountOfFutureSafeMoves = numberOfFutureSafeMoves;
+          moveWithMostSafeMoves = move;
+        }
       }
     }
+
     console.log(movesWithNumberOfSafeMoves, moveWithMostSafeMoves)
     return [movesWithNumberOfSafeMoves, moveWithMostSafeMoves];
   }

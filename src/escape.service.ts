@@ -161,8 +161,8 @@ export class EscapeService {
     const x = startingPoint.x;
     const y = startingPoint.y;
 
+    console.log("x:", x, "Y:", y, vicinityBoard[y][x])
     // Check if the current position is within the grid and is an available space
-    console.log(y < 0, y >= rows, x < 0 , x >= cols , visited[y][x] , (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD))
     if (y < 0 || y >= rows || x < 0 || x >= cols || visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD && vicinityBoard[y][x] != SpaceContains.MY_HEAD)) {
       return [...currentPath];
     }

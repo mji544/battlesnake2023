@@ -152,6 +152,9 @@ export class EscapeService {
     if (visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD && vicinityBoard[y][x] != SpaceContains.MY_HEAD)) {
       return [...currentPath];
     }
+    if (this.coordIsBesideOpponentHead(vicinityBoard, startingPoint)) {
+      return [...currentPath];
+    }
 
     // Mark the current cell as visited
     visited[y][x] = true;
@@ -185,5 +188,33 @@ export class EscapeService {
         return {x: vicinityBoard[rowIndex].indexOf(SpaceContains.MY_HEAD), y: rowIndex}
       }
     }
+  }
+
+  private coordIsBesideOpponentHead(vicinityBoard: SpaceContains[][], coord: Coord): boolean {
+    const rows = vicinityBoard.length;
+    const cols = vicinityBoard[0].length;
+    const x = coord.x;
+    const y = coord.y;
+
+    if (y-1 >= 0) {
+      if (vicinityBoard[y-1][x] != SpaceContains.OPPONENT_HEAD) {
+        return true;
+      }
+    } if (y >= rows) {
+      if (vicinityBoard[y+1][x] != SpaceContains.OPPONENT_HEAD) {
+        return true;
+      }
+    } if (x < 0) {
+      if (vicinityBoard[y][x-1] != SpaceContains.OPPONENT_HEAD) {
+        return true;
+      }
+    }
+    if (x >= cols) {
+      if (vicinityBoard[y][x+1] != SpaceContains.OPPONENT_HEAD) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

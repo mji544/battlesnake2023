@@ -11,7 +11,6 @@ export class StrategyService {
   constructor(private foodService: FoodService,
               private attackService: AttackService,
               private defaultService: DefaultService,
-              private escapeService: EscapeService,
             ) {}
 
 

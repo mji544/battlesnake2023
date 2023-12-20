@@ -32,11 +32,15 @@ export class DefaultService {
         return possibleMove;
       } 
     }
+    if (commonMoves.length == 1) {
+      console.log("Taking first common move");
+      return commonMoves[0];
+    }
     if (conservativeMovesObj.length != 0) {
       console.log("Taking first highest common conserv move");
       return takeHighestNumberOfSafeMoves(conservativeMovesObj);
     }
-    if (commonMoves.length >= 1) {
+    if (commonMoves.length > 1) {
       console.log("Taking first common move");
       return commonMoves[0];
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GameState } from './types';
+import { Battlesnake, Coord, GameState } from './types';
 import { Move, SafeMoves, calculateDistance, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
 
 @Injectable()
@@ -10,22 +10,28 @@ export class FoodService {
     let suggestedMoves = [];
     const food = gameState.board.food;
     const myHead = gameState.you.head;
-    let distanceToClosestFood = 0;
-    let closestFood = null;
-    for (let piece of food) {
-      if (distanceToClosestFood == 0 || calculateDistance(myHead, piece) < distanceToClosestFood) {
-        distanceToClosestFood = calculateDistance(myHead, piece)
-        closestFood = piece;
-      }
-    }
+    
+    const closestFood = this.getClosestFood(food, myHead);
 
     for (let move of currentSafeMoves) {
-      if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), closestFood) < distanceToClosestFood) {
+      if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), closestFood[0]) < closestFood[1]) {
         suggestedMoves.push(move);
       }
     }
 
     return suggestedMoves;
+  }
+
+  public getClosestFood(food: Coord[], head: Coord): [Coord, number] {
+    let distanceToClosestFood = 0;
+    let closestFood = null;
+    for (let piece of food) {
+      if (distanceToClosestFood == 0 || calculateDistance(head, piece) < distanceToClosestFood) {
+        distanceToClosestFood = calculateDistance(head, piece)
+        closestFood = piece;
+      }
+    }
+    return [closestFood, distanceToClosestFood];
   }
 
   public lookAheadConservative(gameState: GameState, possibleMoves: Move[]): [SafeMoves[], Move] {

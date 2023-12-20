@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
 import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, takeHighestNumberOfSafeMoves } from './utils';
+import { EscapeService } from './escape.service';
 
 @Injectable()
 export class DefaultService {
@@ -8,16 +9,20 @@ export class DefaultService {
     Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT
   ];
 
-  constructor() {}
+  constructor(private escapeSerivce: EscapeService) {}
 
   public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
     const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
-    const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
+    const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move));
     const conservativeMovesForFoodObj = suggestedMoveForConservative[0].filter(value => suggestedForFood.includes(value.move));
     // console.log("common moves: " + commonMoves, conservativeMovesObj)
     
 
+    if (commonMoves.length == 0) {
+      console.log("Taking escape route");
+      return this.escapeSerivce.escape(gameState);
+    }
     if (conservativeMovesObj.length != 0) {
       console.log("Taking first highest conserv move");
       return takeHighestNumberOfSafeMoves(conservativeMovesObj);

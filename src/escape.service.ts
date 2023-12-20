@@ -163,7 +163,7 @@ export class EscapeService {
 
     // Check if the current position is within the grid and is an available space
     console.log(y < 0, y >= rows, x < 0 , x >= cols , visited[y][x] , (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD))
-    if (y < 0 || y >= rows || x < 0 || x >= cols || visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD)) {
+    if (y < 0 || y >= rows || x < 0 || x >= cols || visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD && vicinityBoard[y][x] != SpaceContains.MY_HEAD)) {
       return [...currentPath];
     }
 
@@ -184,7 +184,7 @@ export class EscapeService {
     // Find the longest path among the recursive results
     const longestPath = nextPath.reduce((longest, path) => (path.length > longest.length ? path : longest), []);
 
-    console.log("longest", longestPath, "current", currentPath)
+    // console.log("longest", longestPath, "current", currentPath)
 
     // Backtrack: mark the current cell as unvisited and remove it from the current path
     visited[y][x] = false;

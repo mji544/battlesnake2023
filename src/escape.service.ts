@@ -163,7 +163,10 @@ export class EscapeService {
 
     console.log("x:", x, "Y:", y, vicinityBoard[y][x])
     // Check if the current position is within the grid and is an available space
-    if (y < 0 || y >= rows || x < 0 || x >= cols || visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD && vicinityBoard[y][x] != SpaceContains.MY_HEAD)) {
+    if (y < 0 || y >= rows || x < 0 || x >= cols) {
+      return [...currentPath];
+    }
+    if (visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD && vicinityBoard[y][x] != SpaceContains.MY_HEAD)) {
       return [...currentPath];
     }
 

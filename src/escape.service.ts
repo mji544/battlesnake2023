@@ -64,6 +64,7 @@ export class EscapeService {
       let tail = snake.body[snake.length-1];
       let closestFood = this.foodService.getClosestFood(gameState.board.food, snake.head);
       if (calculateDistance(tail, myHead) == 1 && closestFood[1] > 1) {
+        console.log("body:", snake.body)
         return this.getMoveForCoordChange(myHead, tail);
       }
     }

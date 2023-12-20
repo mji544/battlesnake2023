@@ -113,14 +113,14 @@ export function coordHasFood(gameState: GameState, coord: Coord): boolean {
     return false;
 }
 
-export function distanceFromFoodToClosestOpponent(gameState: GameState, foodCoord: Coord): number {
+export function distanceFromCoodToClosestOpponent(gameState: GameState, coord: Coord): number {
     const snakes = gameState.board.snakes;
     let distance = 0;
     for (let snake of snakes) {
         if (snake.id == gameState.you.id) {
             continue;
         }
-        let currentDistance = distanceFromCoordToOpponentHead(snake, foodCoord);
+        let currentDistance = distanceFromCoordToOpponentHead(snake, coord);
         if (distance == 0 || currentDistance < distance) {
             distance = currentDistance;
         }

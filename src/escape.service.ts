@@ -7,7 +7,7 @@ import { FoodService } from './food.service';
 @Injectable()
 export class EscapeService {
   gameBoard: SpaceContains[][];
-  vicinityRadius = 3;
+  vicinityRadius = 2;
 
   constructor(private boardService: BoardService) {}
 
@@ -160,9 +160,9 @@ export class EscapeService {
     if (visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD && vicinityBoard[y][x] != SpaceContains.MY_HEAD)) {
       return [...currentPath];
     }
-    // if (this.coordIsBesideOpponentHead(vicinityBoard, startingPoint)) {
-    //   return [...currentPath];
-    // }
+    if (this.coordIsBesideOpponentHead(vicinityBoard, startingPoint)) {
+      return [...currentPath];
+    }
 
     // Mark the current cell as visited
     visited[y][x] = true;

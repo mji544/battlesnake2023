@@ -67,15 +67,15 @@ export class EscapeService {
     return null;
   }
 
-  public getMoveForCoordChange(startingCoord: Coord, nextCoord: Coord): Move {
+  private getMoveForCoordChange(startingCoord: Coord, nextCoord: Coord): Move {
     if (startingCoord.x - nextCoord.x < 0) {
       return Move.RIGHT;
     } else if (startingCoord.x - nextCoord.x > 0) {
       return Move.LEFT;
     } else if (startingCoord.y - nextCoord.y < 0) {
-      return Move.UP;
-    } else {
       return Move.DOWN;
+    } else {
+      return Move.UP;
     }
   }
 

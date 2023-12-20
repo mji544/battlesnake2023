@@ -26,7 +26,7 @@ export class StrategyService {
 
     const closestOpponent = this.attackService.findClosestEdibleOpponent(gameState);
 
-    const suggestedMovesForFood = this.foodService.moveTowardsClosestFood(gameState, availableMoves);
+    const suggestedMovesForFood = this.foodService.moveTowardsClosestAvailableFood(gameState, availableMoves);
     const suggestedMovesForAttack = this.attackService.moveTowardsOpponent(gameState, availableMoves, closestOpponent);
     
     // console.log("possible attack/food", suggestedMovesForAttack, suggestedMovesForFood)

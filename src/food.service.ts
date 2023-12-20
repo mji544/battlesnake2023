@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, Coord, GameState } from './types';
-import { Move, SafeMoves, calculateDistance, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
+import { Move, SafeMoves, calculateDistance, coordsAreTheSame, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
 
 @Injectable()
 export class FoodService {
@@ -15,6 +15,35 @@ export class FoodService {
 
     for (let move of currentSafeMoves) {
       if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), closestFood[0]) < closestFood[1]) {
+        suggestedMoves.push(move);
+      }
+    }
+
+    return suggestedMoves;
+  }
+
+  public moveTowardsClosestAvailableFood(gameState: GameState, currentSafeMoves: Move[]): Move[] {
+    let suggestedMoves = [];
+    const food = gameState.board.food;
+    const myHead = gameState.you.head;
+    
+    const closestFood = this.getClosestFood(food, myHead);
+    const nextClosestFood = this.getClosestFood(food.filter(piece => coordsAreTheSame(piece, closestFood[0])), myHead);
+
+    let selectedFood = null;
+    // Check if food is safe or trap
+    if (closestFood[1] != 0 && getNumberOfSafeMovesAtCoord(gameState, closestFood[0]) > 1) {
+      selectedFood = closestFood;
+    } 
+    if (nextClosestFood[1] != 0 && getNumberOfSafeMovesAtCoord(gameState, nextClosestFood[0]) <= 1) {
+      selectedFood = nextClosestFood;
+    }
+
+    if (selectedFood == null) {
+      return suggestedMoves;
+    }
+    for (let move of currentSafeMoves) {
+      if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), selectedFood[0]) < selectedFood[1]) {
         suggestedMoves.push(move);
       }
     }

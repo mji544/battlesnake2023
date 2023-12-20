@@ -24,7 +24,7 @@ export class EscapeService {
       console.log("Following tail...")
       return moveToFollowTail;
     }
-    if (longestPath.length >= 2) {
+    if (longestPath != null && longestPath.length >= 2) {
       return this.getMoveForCoordChangeOnVicinity(longestPath[0], longestPath[1]);
     }
     return null;

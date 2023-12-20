@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, takeHighestNumberOfSafeMoves } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, takeHighestNumberOfSafeMoves, getNumberOfSafeMovesAtCoord } from './utils';
 import { EscapeService } from './escape.service';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class DefaultService {
     console.log("Common Moves:", commonMoves);
     console.log("Common Conservative Moves:", conservativeMovesObj);
 
-    if (suggestedForAttack.length == 0 && suggestedForFood.length == 0) {
+    if (suggestedForAttack.length == 0 && suggestedForFood.length == 0 && getNumberOfSafeMovesAtCoord(gameState, nextCoordAfterMove({move: suggestedMoveForConservative[1]}, gameState.you.head)) < 2) {
       console.log("Taking escape route");
       return this.escapeSerivce.escape(gameState);
     }

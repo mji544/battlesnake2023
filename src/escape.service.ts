@@ -24,7 +24,7 @@ export class EscapeService {
       console.log("Following tail...")
       return moveToFollowTail;
     }
-    return this.getMoveForCoordChange(longestPath[0], longestPath[1]);
+    return this.getMoveForCoordChangeOnVicinity(longestPath[0], longestPath[1]);
   }
 
   public findLongestRoute(gameState: GameState): Coord[] {
@@ -68,6 +68,18 @@ export class EscapeService {
   }
 
   private getMoveForCoordChange(startingCoord: Coord, nextCoord: Coord): Move {
+    if (startingCoord.x - nextCoord.x < 0) {
+      return Move.RIGHT;
+    } else if (startingCoord.x - nextCoord.x > 0) {
+      return Move.LEFT;
+    } else if (startingCoord.y - nextCoord.y < 0) {
+      return Move.UP;
+    } else {
+      return Move.DOWN;
+    }
+  }
+
+  private getMoveForCoordChangeOnVicinity(startingCoord: Coord, nextCoord: Coord): Move {
     if (startingCoord.x - nextCoord.x < 0) {
       return Move.RIGHT;
     } else if (startingCoord.x - nextCoord.x > 0) {

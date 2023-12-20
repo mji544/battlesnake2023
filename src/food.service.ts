@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, Coord, GameState } from './types';
 import { Move, SafeMoves, calculateDistance, coordsAreTheSame, distanceFromCoodToClosestOpponent, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
+import { EscapeService } from './escape.service';
 
 @Injectable()
 export class FoodService {
-  constructor() {}
+  constructor(private escapeService: EscapeService) {}
 
   public moveTowardsClosestFood(gameState: GameState, currentSafeMoves: Move[]): Move[] {
     let suggestedMoves = [];
@@ -32,7 +33,7 @@ export class FoodService {
 
     let selectedFood = null;
     // Check if food is safe or trap
-    if (closestFood[1] != 0 && getNumberOfSafeMovesAtCoord(gameState, closestFood[0]) > 1 
+    if (closestFood[1] != 0 
     && distanceFromCoodToClosestOpponent(gameState, closestFood[0]) > calculateDistance(gameState.you.head, closestFood[0])) {
       selectedFood = closestFood;
     } 
@@ -44,7 +45,7 @@ export class FoodService {
       return suggestedMoves;
     }
     for (let move of currentSafeMoves) {
-      if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), selectedFood[0]) < selectedFood[1]) {
+      if (calculateDistance(nextCoordAfterMove({ move: move }, myHead), selectedFood[0]) < selectedFood[1] && !this.escapeService.checkIfMovePossiblyTraps(gameState, move)) {
         suggestedMoves.push(move);
       }
     }

@@ -9,8 +9,7 @@ export class EscapeService {
   gameBoard: SpaceContains[][];
   vicinityRadius = 3;
 
-  constructor(private boardService: BoardService,
-              private foodService: FoodService) {}
+  constructor(private boardService: BoardService) {}
 
   public checkIfMovePossiblyTraps(gameState: GameState, nextMove: Move): boolean {
     const path = this.findLongestRoute(gameState, nextCoordAfterMove({move: nextMove}, gameState.you.head));
@@ -24,12 +23,13 @@ export class EscapeService {
     const longestPath = this.findLongestRoute(gameState, gameState.you.head);
     const moveToFollowTail = this.followTail(gameState);
 
-    if (moveToFollowTail != null) {
-      console.log("Following tail...")
-      return moveToFollowTail;
-    }
     if (longestPath != null && longestPath.length >= 2) {
       return this.getMoveForCoordChangeOnVicinity(longestPath[0], longestPath[1]);
+    }
+
+    if (longestPath != null && moveToFollowTail != null) {
+      console.log("Following tail...")
+      return moveToFollowTail;
     }
     return null;
   }
@@ -66,8 +66,7 @@ export class EscapeService {
     const myHead = gameState.you.head;
     for (let snake of snakes) {
       let tail = snake.body[snake.length-1];
-      let closestFood = this.foodService.getClosestFood(gameState.board.food, snake.head);
-      if (calculateDistance(tail, myHead) == 1 && closestFood[1] > 1) {
+      if (calculateDistance(tail, myHead) == 1) {
         console.log("body:", snake.body)
         return this.getMoveForCoordChange(myHead, tail);
       }

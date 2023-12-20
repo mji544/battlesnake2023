@@ -17,7 +17,7 @@ export class EscapeService {
   }
 
   public escape(gameState: GameState): Move {
-    const longestPath = this.findLongestRoute(gameState);
+    const longestPath = this.findLongestRoute(gameState, gameState.you.head);
     const moveToFollowTail = this.followTail(gameState);
 
     if (moveToFollowTail != null) {
@@ -30,8 +30,8 @@ export class EscapeService {
     return null;
   }
 
-  public findLongestRoute(gameState: GameState): Coord[] {
-    const vicinityBoard = this.getVicinityBoard(gameState);
+  public findLongestRoute(gameState: GameState, startingCoord: Coord): Coord[] {
+    const vicinityBoard = this.getVicinityBoard(gameState, startingCoord);
     const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
     // const myHeadCoord = gameState.you.head;
     // console.log(myHeadCoord, myHeadVicinityCoord, "here");
@@ -95,12 +95,12 @@ export class EscapeService {
     }
   }
 
-  public getVicinityBoard(gameState: GameState): SpaceContains[][] {
+  public getVicinityBoard(gameState: GameState, startingCoord: Coord): SpaceContains[][] {
     this.gameBoard = this.boardService.board;
-    const myHeadCoord = gameState.you.head;
+    // const myHeadCoord = gameState.you.head;
     
     let vicinity = [...this.gameBoard];
-    const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, myHeadCoord);
+    const indicesToSplice: SplicingIndices = this.indicesToSplice(gameState, startingCoord);
 
     vicinity = vicinity.slice(gameState.board.height-indicesToSplice.up, gameState.board.height-indicesToSplice.down);
     let index = 0;

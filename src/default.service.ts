@@ -45,12 +45,16 @@ export class DefaultService {
       return commonMoves[0];
     }
     if (suggestedForAttack.length > 0 && closestOpponent != null) {
-      console.log("Taking first attack move");
-      return suggestedForAttack[0];
+      if (this.escapeSerivce.findLongestRoute(gameState, nextCoordAfterMove({move: suggestedForAttack[0]}, gameState.you.head)).length > 3) {
+        console.log("Taking first attack move");
+        return suggestedForAttack[0];
+      }
     }
     if (suggestedForFood.length > 0) {
-      console.log("Taking first food move");
-      return suggestedForFood[0];
+      if (this.escapeSerivce.findLongestRoute(gameState, nextCoordAfterMove({move: suggestedForFood[0]}, gameState.you.head)).length > 3) {
+        console.log("Taking first food move");
+        return suggestedForFood[0];
+      }
     }
     if (suggestedMoveForConservative[1] != null) {
       console.log("Taking move with highest number of future moves");

@@ -29,7 +29,7 @@ export class FoodService {
     const myHead = gameState.you.head;
     
     const closestFood = this.getClosestFood(food, myHead);
-    const nextClosestFood = this.getClosestFood(food.filter(piece => coordsAreTheSame(piece, closestFood[0])), myHead);
+    const nextClosestFood = this.getClosestFood(food.filter(piece => !coordsAreTheSame(piece, closestFood[0])), myHead);
 
     let selectedFood = null;
     // Check if food is safe or trap

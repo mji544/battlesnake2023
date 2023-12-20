@@ -7,7 +7,7 @@ import { FoodService } from './food.service';
 @Injectable()
 export class EscapeService {
   gameBoard: SpaceContains[][];
-  vicinityRadius = 2;
+  vicinityRadius = 3;
 
   constructor(private boardService: BoardService,
               private foodService: FoodService) {}

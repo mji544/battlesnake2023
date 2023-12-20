@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, takeHighestNumberOfSafeMoves, getNumberOfSafeMovesAtCoord } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, takeHighestNumberOfSafeMoves, getNumberOfSafeMovesAtCoord, distanceFromCoodToClosestOpponent } from './utils';
 import { EscapeService } from './escape.service';
+import { AttackService } from './attack.service';
 
 @Injectable()
 export class DefaultService {
@@ -38,7 +39,10 @@ export class DefaultService {
     }
     if (conservativeMovesObj.length != 0) {
       console.log("Taking first highest common conserv move");
-      return takeHighestNumberOfSafeMoves(conservativeMovesObj);
+      let highestSafeMove = takeHighestNumberOfSafeMoves(conservativeMovesObj);
+      if (distanceFromCoodToClosestOpponent(gameState, nextCoordAfterMove({move: highestSafeMove}, gameState.you.head)) > 1) {
+        return highestSafeMove;
+      }
     }
     if (commonMoves.length > 1) {
       console.log("Taking first common move");

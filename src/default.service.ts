@@ -45,13 +45,13 @@ export class DefaultService {
       return commonMoves[0];
     }
     if (suggestedForAttack.length > 0 && closestOpponent != null) {
-      if (this.escapeSerivce.findLongestRoute(gameState, nextCoordAfterMove({move: suggestedForAttack[0]}, gameState.you.head)).length > 3) {
+      if (this.escapeSerivce.checkIfMovePossiblyTraps(gameState, suggestedForAttack[0])) {
         console.log("Taking first attack move");
         return suggestedForAttack[0];
       }
     }
     if (suggestedForFood.length > 0) {
-      if (this.escapeSerivce.findLongestRoute(gameState, nextCoordAfterMove({move: suggestedForFood[0]}, gameState.you.head)).length > 3) {
+      if (this.escapeSerivce.checkIfMovePossiblyTraps(gameState, suggestedForFood[0])) {
         console.log("Taking first food move");
         return suggestedForFood[0];
       }

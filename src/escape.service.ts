@@ -12,8 +12,11 @@ export class EscapeService {
   constructor(private boardService: BoardService,
               private foodService: FoodService) {}
 
-  public checkIfPossiblyTrapped() {
-    
+  public checkIfMovePossiblyTraps(gameState: GameState, nextMove: Move): boolean {
+    if (this.findLongestRoute(gameState, nextCoordAfterMove({move: nextMove}, gameState.you.head)).length > 3) {
+      return true;
+    }
+    return false;
   }
 
   public escape(gameState: GameState): Move {

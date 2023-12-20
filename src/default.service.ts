@@ -57,6 +57,12 @@ export class DefaultService {
       return suggestedMoveForConservative[1];
     }
 
+    let lastResortMove = this.escapeSerivce.escape(gameState);
+    if (lastResortMove != null) {
+      console.log("Taking escape route: last resort");
+      return lastResortMove;
+    }
+
     //Default move
     console.log("defaulting move to down");
     return Move.DOWN;

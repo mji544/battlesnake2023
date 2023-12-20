@@ -18,6 +18,11 @@ export class DefaultService {
     const conservativeMovesForFoodObj = suggestedMoveForConservative[0].filter(value => suggestedForFood.includes(value.move));
     // console.log("common moves: " + commonMoves, conservativeMovesObj)
     
+    console.log("Food:", suggestedForFood);
+    console.log("Attack:", suggestedForAttack);
+    console.log("Conservative:", suggestedMoveForConservative);
+    console.log("Common Moves:", commonMoves);
+    console.log("Common Conservative Moves:", conservativeMovesObj);
 
     if (commonMoves.length == 0) {
       console.log("Taking escape route");

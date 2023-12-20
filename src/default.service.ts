@@ -24,7 +24,7 @@ export class DefaultService {
     console.log("Common Moves:", commonMoves);
     console.log("Common Conservative Moves:", conservativeMovesObj);
 
-    if (commonMoves.length == 0) {
+    if (suggestedForAttack.length == 0 && suggestedForFood.length == 0) {
       console.log("Taking escape route");
       return this.escapeSerivce.escape(gameState);
     }

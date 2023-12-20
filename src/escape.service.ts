@@ -21,6 +21,7 @@ export class EscapeService {
     const moveToFollowTail = this.followTail(gameState);
 
     if (moveToFollowTail != null) {
+      console.log("Following tail...")
       return moveToFollowTail;
     }
     return this.getMoveForCoordChange(longestPath[0], longestPath[1]);
@@ -59,7 +60,6 @@ export class EscapeService {
     for (let snake of snakes) {
       let tail = snake.body[snake.length-1];
       let closestFood = this.foodService.getClosestFood(gameState.board.food, snake.head);
-      console.log("tail:", tail, myHead)
       if (calculateDistance(tail, myHead) == 1 && closestFood[1] > 1) {
         return this.getMoveForCoordChange(myHead, tail);
       }

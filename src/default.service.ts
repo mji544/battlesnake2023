@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, SafeMoves, takeHighestNumberOfSafeMoves, getNumberOfSafeMovesAtCoord, distanceFromCoodToClosestOpponent } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, SafeMoves, takeHighestNumberOfSafeMoves, getNumberOfSafeMovesAtCoord, distanceFromCoodToClosestOpponent, addToWeightForMove, WeightedMove, takeHighestWeightedMove } from './utils';
 import { EscapeService } from './escape.service';
 
 @Injectable()
@@ -8,6 +8,13 @@ export class DefaultService {
   initialMoves: Move[] = [
     Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT
   ];
+  initialWeightedMoves: WeightedMove[] = [
+    {move: Move.DOWN, weight: 0}, 
+    {move: Move.UP, weight: 0}, 
+    {move: Move.LEFT, weight: 0}, 
+    {move: Move.RIGHT, weight: 0}
+  ];
+
 
   constructor(private escapeSerivce: EscapeService) {}
 
@@ -73,6 +80,57 @@ export class DefaultService {
     //Default move
     console.log("defaulting move to down");
     return Move.DOWN;
+  }
+
+  public getWeightedSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
+    const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
+    const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
+    let weightedMoves = [...this.initialWeightedMoves]
+
+    console.log("Food:", suggestedForFood);
+    console.log("Attack:", suggestedForAttack);
+    console.log("Conservative:", suggestedMoveForConservative);
+    console.log("Common Moves:", commonMoves);
+    console.log("Common Conservative Moves:", conservativeMovesObj);
+
+    if (suggestedMoveForConservative[1] != null && suggestedForAttack.length == 0 && suggestedForFood.length == 0 
+      && getNumberOfSafeMovesAtCoord(gameState, nextCoordAfterMove({move: suggestedMoveForConservative[1]}, gameState.you.head)) < 2) {
+      let possibleMove = this.escapeSerivce.escape(gameState);
+      if (possibleMove != null) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.19, possibleMove);
+      } 
+    }
+    for (let common of commonMoves) {
+      weightedMoves = addToWeightForMove(weightedMoves, 0.2, common);
+    }
+    for (let conserv of conservativeMovesObj) {
+      if (distanceFromCoodToClosestOpponent(gameState, nextCoordAfterMove({move: conserv.move}, gameState.you.head)) > 1) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.09*conserv.numOfSafeMoves, conserv.move);
+      } else {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.06*conserv.numOfSafeMoves, conserv.move);
+      }
+    }
+    for (let move of suggestedForAttack) {
+      if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, move) && closestOpponent != null) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.17, move);
+      }
+    }
+    for (let move of suggestedForFood) {
+      if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, move) && closestOpponent != null) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.16, move);
+      }
+    }
+    for (let move of suggestedMoveForConservative[0]) {
+      weightedMoves = addToWeightForMove(weightedMoves, 0.06*move.numOfSafeMoves, move.move);
+    }
+
+    let lastResortMove = this.escapeSerivce.escape(gameState);
+    if (lastResortMove != null) {
+      weightedMoves = addToWeightForMove(weightedMoves, 0.11, lastResortMove);
+    }
+   
+    console.log("Weighted moves", weightedMoves);
+    return takeHighestWeightedMove(weightedMoves);
   }
 
 

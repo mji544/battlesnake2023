@@ -29,6 +29,11 @@ export interface SplicingIndices {
     up: number,
 }
 
+export interface WeightedMove {
+    move: Move,
+    weight: number,
+}
+
 export function calculateDistance(a: Coord, b: Coord): number {
     // number of spaces
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -175,4 +180,23 @@ export function takeHighestNumberOfSafeMoves(commonMovesObj: SafeMoves[]): Move 
         }
     }
     return highestMove;
+}
+
+export function takeHighestWeightedMove(weightedMoves: WeightedMove[]): Move {
+    let highestMove = weightedMoves[0];
+    for (let move of weightedMoves) {
+        if (move.weight > highestMove.weight) {
+            highestMove = move;
+        }
+    }
+    return highestMove.move;
+}
+
+export function addToWeightForMove(weightedMoves: WeightedMove[], weight: number, move: Move): WeightedMove[] {
+    for (let item of weightedMoves) {
+        if (item.move == move) {
+            item.weight += weight;
+        }
+    }
+    return weightedMoves;
 }

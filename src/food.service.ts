@@ -82,7 +82,7 @@ export class FoodService {
       }
     }
 
-    console.log(movesWithNumberOfSafeMoves, moveWithMostSafeMoves)
+    // console.log(movesWithNumberOfSafeMoves, moveWithMostSafeMoves)
     return [movesWithNumberOfSafeMoves, moveWithMostSafeMoves];
   }
 }

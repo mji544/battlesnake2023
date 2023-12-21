@@ -68,7 +68,7 @@ export class EscapeService {
     for (let snake of snakes) {
       let tail = snake.body[snake.length-1];
       if (calculateDistance(tail, myHead) == 1) {
-        console.log("body:", snake.body)
+        // console.log("body:", snake.body)
         return this.getMoveForCoordChange(myHead, tail);
       }
     }

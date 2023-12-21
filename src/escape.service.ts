@@ -24,14 +24,14 @@ export class EscapeService {
     const longestPath = this.findLongestRoute(gameState, gameState.you.head);
     const moveToFollowTail = this.followTail(gameState);
 
-    if (longestPath != null && longestPath.length >= 2) {
-      return this.getMoveForCoordChangeOnVicinity(longestPath[0], longestPath[1]);
-    }
-
     if (longestPath != null && moveToFollowTail != null) {
       console.log("Following tail...")
       return moveToFollowTail;
     }
+    if (longestPath != null && longestPath.length >= 2) {
+      return this.getMoveForCoordChangeOnVicinity(longestPath[0], longestPath[1]);
+    }
+
     return null;
   }
 

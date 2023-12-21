@@ -39,7 +39,7 @@ export class FoodService {
     } else if (nextClosestFood[1] != 0 && getNumberOfSafeMovesAtCoord(gameState, nextClosestFood[0]) > 1) {
       selectedFood = nextClosestFood;
     }
-    console.log("fooood", closestFood, nextClosestFood, selectedFood)
+    // console.log("fooood", closestFood, nextClosestFood, selectedFood)
 
     if (selectedFood == null) {
       return suggestedMoves;

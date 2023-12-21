@@ -34,7 +34,7 @@ export class FoodService {
     let selectedFood = null;
     // Check if food is safe or trap
     if (closestFood[1] != 0 
-    && distanceFromCoodToClosestOpponent(gameState, closestFood[0]) > calculateDistance(gameState.you.head, closestFood[0])) {
+    && distanceFromCoodToClosestOpponent(gameState, closestFood[0]) > closestFood[1]) {
       selectedFood = closestFood;
     } 
     if (nextClosestFood[1] != 0 && getNumberOfSafeMovesAtCoord(gameState, nextClosestFood[0]) > 1) {

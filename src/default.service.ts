@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, takeHighestNumberOfSafeMoves, getNumberOfSafeMovesAtCoord, distanceFromCoodToClosestOpponent } from './utils';
+import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, SafeMoves, takeHighestNumberOfSafeMoves, getNumberOfSafeMovesAtCoord, distanceFromCoodToClosestOpponent } from './utils';
 import { EscapeService } from './escape.service';
-import { AttackService } from './attack.service';
 
 @Injectable()
 export class DefaultService {
@@ -15,8 +14,8 @@ export class DefaultService {
   public getDefaultSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
     const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
-    const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move));
-    const conservativeMovesForFoodObj = suggestedMoveForConservative[0].filter(value => suggestedForFood.includes(value.move));
+    // const conservativeMovesForAttackObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move));
+    // const conservativeMovesForFoodObj = suggestedMoveForConservative[0].filter(value => suggestedForFood.includes(value.move));
     // console.log("common moves: " + commonMoves, conservativeMovesObj)
     
     console.log("Food:", suggestedForFood);

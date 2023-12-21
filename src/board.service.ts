@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Battlesnake, GameState, Coord } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, SpaceContains, coordHasFood, coordsAreTheSame } from './utils';
+import { bodyHasCoord, SpaceContains, coordHasFood, coordsAreTheSame } from './utils';
 
 @Injectable()
 export class BoardService {
@@ -52,7 +52,7 @@ export class BoardService {
         }
         return SpaceContains.ME;
     }
-    
+
     if (coordsAreTheSame(snake.head, coord)) {
         return SpaceContains.OPPONENT_HEAD;
     }

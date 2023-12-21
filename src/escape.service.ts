@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Battlesnake, GameState, Coord } from './types';
-import { Move, coordHasOpponent, nextCoordAfterMove, coordOutOfBounds, bodyHasCoord, coordHasMySnake, lookAheadForOpponent, SafeMoves, SpaceContains, coordHasFood, SplicingIndices, calculateDistance } from './utils';
+import { GameState, Coord } from './types';
+import { Move, nextCoordAfterMove, SpaceContains, SplicingIndices, calculateDistance } from './utils';
 import { BoardService } from './board.service';
-import { FoodService } from './food.service';
 
 @Injectable()
 export class EscapeService {
   gameBoard: SpaceContains[][];
-  vicinityRadius = 2;
+  vicinityRadius = 3;
 
   constructor(private boardService: BoardService) {}
 
@@ -24,12 +23,12 @@ export class EscapeService {
     const longestPath = this.findLongestRoute(gameState, gameState.you.head);
     const moveToFollowTail = this.followTail(gameState);
 
-    if (longestPath != null && moveToFollowTail != null) {
-      console.log("Following tail...")
-      return moveToFollowTail;
-    }
     if (longestPath != null && longestPath.length >= 2) {
       return this.getMoveForCoordChangeOnVicinity(longestPath[0], longestPath[1]);
+    }
+    if (moveToFollowTail != null) {
+      console.log("Following tail...")
+      return moveToFollowTail;
     }
 
     return null;
@@ -67,7 +66,11 @@ export class EscapeService {
     const myHead = gameState.you.head;
     for (let snake of snakes) {
       let tail = snake.body[snake.length-1];
-      if (calculateDistance(tail, myHead) == 1) {
+      if (snake.id == gameState.you.id && calculateDistance(tail, myHead) == 1) {
+        // console.log("body:", snake.body)
+        return this.getMoveForCoordChange(myHead, tail);
+      }
+      if (snake.id != gameState.you.id && calculateDistance(tail, myHead) == 2) {
         // console.log("body:", snake.body)
         return this.getMoveForCoordChange(myHead, tail);
       }

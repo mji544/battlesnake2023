@@ -4,7 +4,6 @@ import { lookAheadForOpponent, lookAheadForOpponentAndFood } from './utils';
 import { FoodService } from './food.service';
 import { AttackService } from './attack.service';
 import { DefaultService } from './default.service';
-import { EscapeService } from './escape.service';
 
 @Injectable()
 export class StrategyService {

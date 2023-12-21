@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Battlesnake, Coord, GameState } from './types';
+import { Coord, GameState } from './types';
 import { Move, SafeMoves, calculateDistance, coordsAreTheSame, distanceFromCoodToClosestOpponent, getNumberOfSafeMovesAtCoord, nextCoordAfterMove } from './utils';
 import { EscapeService } from './escape.service';
 

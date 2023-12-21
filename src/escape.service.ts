@@ -14,7 +14,7 @@ export class EscapeService {
   public checkIfMovePossiblyTraps(gameState: GameState, nextMove: Move): boolean {
     const path = this.findLongestRoute(gameState, nextCoordAfterMove({move: nextMove}, gameState.you.head));
     console.log("checking traps", path);
-    if (path == null || path.length > 3) {
+    if (path == null || path.length < 3) {
       return true;
     }
     return false;

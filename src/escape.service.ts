@@ -181,7 +181,7 @@ export class EscapeService {
     // Find the longest path among the recursive results
     const longestPath = nextPath.reduce((longest, path) => (path.length > longest.length ? path : longest), []);
 
-    console.log("longest", longestPath, "current", currentPath)
+    // console.log("longest", longestPath, "current", currentPath)
 
     // Backtrack: mark the current cell as unvisited and remove it from the current path
     visited[y][x] = false;

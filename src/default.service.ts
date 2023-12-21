@@ -8,12 +8,6 @@ export class DefaultService {
   initialMoves: Move[] = [
     Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT
   ];
-  initialWeightedMoves: WeightedMove[] = [
-    {move: Move.DOWN, weight: 0}, 
-    {move: Move.UP, weight: 0}, 
-    {move: Move.LEFT, weight: 0}, 
-    {move: Move.RIGHT, weight: 0}
-  ];
 
 
   constructor(private escapeSerivce: EscapeService) {}
@@ -83,9 +77,15 @@ export class DefaultService {
   }
 
   public getWeightedSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
+    const initialWeightedMoves: WeightedMove[] = [
+      {move: Move.DOWN, weight: 0}, 
+      {move: Move.UP, weight: 0}, 
+      {move: Move.LEFT, weight: 0}, 
+      {move: Move.RIGHT, weight: 0}
+    ];
     const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
-    let weightedMoves = [...this.initialWeightedMoves];
+    let weightedMoves = [...initialWeightedMoves];
     console.log(weightedMoves)
 
     console.log("Food:", suggestedForFood);

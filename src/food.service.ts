@@ -36,8 +36,7 @@ export class FoodService {
     if (closestFood[1] != 0 
     && distanceFromCoodToClosestOpponent(gameState, closestFood[0]) > closestFood[1]) {
       selectedFood = closestFood;
-    } 
-    if (nextClosestFood[1] != 0 && getNumberOfSafeMovesAtCoord(gameState, nextClosestFood[0]) > 1) {
+    } else if (nextClosestFood[1] != 0 && getNumberOfSafeMovesAtCoord(gameState, nextClosestFood[0]) > 1) {
       selectedFood = nextClosestFood;
     }
     console.log("fooood", closestFood, nextClosestFood, selectedFood)

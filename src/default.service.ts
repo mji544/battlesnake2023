@@ -86,13 +86,12 @@ export class DefaultService {
     const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
     let weightedMoves = [...initialWeightedMoves];
-    console.log(weightedMoves)
 
-    console.log("Food:", suggestedForFood);
-    console.log("Attack:", suggestedForAttack);
-    console.log("Conservative:", suggestedMoveForConservative);
-    console.log("Common Moves:", commonMoves);
-    console.log("Common Conservative Moves:", conservativeMovesObj);
+    // console.log("Food:", suggestedForFood);
+    // console.log("Attack:", suggestedForAttack);
+    // console.log("Conservative:", suggestedMoveForConservative);
+    // console.log("Common Moves:", commonMoves);
+    // console.log("Common Conservative Moves:", conservativeMovesObj);
 
     if (suggestedMoveForConservative[1] != null && suggestedForAttack.length == 0 && suggestedForFood.length == 0 
       && getNumberOfSafeMovesAtCoord(gameState, nextCoordAfterMove({move: suggestedMoveForConservative[1]}, gameState.you.head)) < 2) {

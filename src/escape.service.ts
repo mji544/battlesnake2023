@@ -205,20 +205,19 @@ export class EscapeService {
     const y = coord.y;
 
     if (y-1 >= 0) {
-      if (vicinityBoard[y-1][x] != SpaceContains.OPPONENT_HEAD) {
+      if (vicinityBoard[y-1][x] == SpaceContains.OPPONENT_HEAD) {
         return true;
       }
-    } if (y >= rows) {
-      if (vicinityBoard[y+1][x] != SpaceContains.OPPONENT_HEAD) {
+    } if (y+1 < rows) {
+      if (vicinityBoard[y+1][x] == SpaceContains.OPPONENT_HEAD) {
         return true;
       }
-    } if (x < 0) {
-      if (vicinityBoard[y][x-1] != SpaceContains.OPPONENT_HEAD) {
+    } if (x-1 >= 0) {
+      if (vicinityBoard[y][x-1] == SpaceContains.OPPONENT_HEAD) {
         return true;
       }
-    }
-    if (x >= cols) {
-      if (vicinityBoard[y][x+1] != SpaceContains.OPPONENT_HEAD) {
+    } if (x+1 < cols) {
+      if (vicinityBoard[y][x+1] == SpaceContains.OPPONENT_HEAD) {
         return true;
       }
     }

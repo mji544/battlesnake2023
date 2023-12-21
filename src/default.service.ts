@@ -85,7 +85,8 @@ export class DefaultService {
   public getWeightedSuggestedMove(gameState: GameState, suggestedForFood: Move[], suggestedForAttack: Move[], suggestedMoveForConservative: [SafeMoves[], Move], closestOpponent: Battlesnake): Move {
     const commonMoves = suggestedForAttack.filter(value => suggestedForFood.includes(value));
     const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
-    let weightedMoves = [...this.initialWeightedMoves]
+    let weightedMoves = [...this.initialWeightedMoves];
+    console.log(weightedMoves)
 
     console.log("Food:", suggestedForFood);
     console.log("Attack:", suggestedForAttack);

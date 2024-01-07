@@ -87,11 +87,11 @@ export class DefaultService {
     const conservativeMovesObj = suggestedMoveForConservative[0].filter(value => suggestedForAttack.includes(value.move) || suggestedForFood.includes(value.move));
     let weightedMoves = [...initialWeightedMoves];
 
-    // console.log("Food:", suggestedForFood);
-    // console.log("Attack:", suggestedForAttack);
-    // console.log("Conservative:", suggestedMoveForConservative);
-    // console.log("Common Moves:", commonMoves);
-    // console.log("Common Conservative Moves:", conservativeMovesObj);
+    console.log("Food:", suggestedForFood);
+    console.log("Attack:", suggestedForAttack);
+    console.log("Conservative:", suggestedMoveForConservative);
+    console.log("Common Moves:", commonMoves);
+    console.log("Common Conservative Moves:", conservativeMovesObj);
 
     if (suggestedMoveForConservative[1] != null && suggestedForAttack.length == 0 && suggestedForFood.length == 0 
       && getNumberOfSafeMovesAtCoord(gameState, nextCoordAfterMove({move: suggestedMoveForConservative[1]}, gameState.you.head)) < 2) {
@@ -124,10 +124,12 @@ export class DefaultService {
       weightedMoves = addToWeightForMove(weightedMoves, 0.06*move.numOfSafeMoves, move.move);
     }
 
-    let lastResortMove = this.escapeSerivce.escape(gameState);
+    const lastResortMove = this.escapeSerivce.escape(gameState);
     if (lastResortMove != null) {
       weightedMoves = addToWeightForMove(weightedMoves, 0.11, lastResortMove);
     }
+    console.log("Escape Move:", lastResortMove);
+
    
     console.log("Weighted moves", weightedMoves);
     return takeHighestWeightedMove(weightedMoves);

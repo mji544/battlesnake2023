@@ -38,7 +38,7 @@ export class EscapeService {
     const vicinityBoard = this.getVicinityBoard(gameState, startingCoord);
     const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
     const previousMove = moveToGetToAdjacentCoord(gameState.you.body[1], gameState.you.head);
-    console.log("previous move was:", previousMove)
+    // console.log("previous move was:", previousMove)
     // const myHeadCoord = gameState.you.head;
     // console.log(myHeadCoord, myHeadVicinityCoord, "here");
 
@@ -53,7 +53,7 @@ export class EscapeService {
   
     // Use DFS to find the longest continuous, connecting path
     const {path: longestPath, turns: numberOfTurns} = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, [], 0, previousMove);
-    console.log("number of turns:", numberOfTurns, "path:", longestPath)
+    // console.log("number of turns:", numberOfTurns, "path:", longestPath)
   
     // console.log("longest path:", longestPath)
     // If no valid path is found, return null
@@ -186,8 +186,6 @@ export class EscapeService {
 
     // Find the longest path among the recursive results
     const {path, turns: mostTurns} = nextPath.reduce((longest, path) => (path.path.length > longest.path.length ? path : longest), {path: [], turns: turns});
-
-    // console.log("longest", longestPath, "current", currentPath)
 
     // Backtrack: mark the current cell as unvisited and remove it from the current path
     visited[y][x] = false;

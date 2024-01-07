@@ -93,36 +93,36 @@ export class DefaultService {
     // console.log("Common Moves:", commonMoves);
     // console.log("Common Conservative Moves:", conservativeMovesObj);
 
-    // if (suggestedMoveForConservative[1] != null && suggestedForAttack.length == 0 && suggestedForFood.length == 0 
-    //   && getNumberOfSafeMovesAtCoord(gameState, nextCoordAfterMove({move: suggestedMoveForConservative[1]}, gameState.you.head)) < 2) {
-    //   let possibleMove = this.escapeSerivce.escape(gameState);
-    //   if (possibleMove != null) {
-    //     weightedMoves = addToWeightForMove(weightedMoves, 0.19, possibleMove);
-    //   } 
-    // }
-    // for (let common of commonMoves) {
-    //   weightedMoves = addToWeightForMove(weightedMoves, 0.2, common);
-    // }
-    // for (let conserv of conservativeMovesObj) {
-    //   if (distanceFromCoodToClosestOpponent(gameState, nextCoordAfterMove({move: conserv.move}, gameState.you.head)) > 1) {
-    //     weightedMoves = addToWeightForMove(weightedMoves, 0.09*conserv.numOfSafeMoves, conserv.move);
-    //   } else {
-    //     weightedMoves = addToWeightForMove(weightedMoves, 0.06*conserv.numOfSafeMoves, conserv.move);
-    //   }
-    // }
-    // for (let move of suggestedForAttack) {
-    //   if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, move) && closestOpponent != null) {
-    //     weightedMoves = addToWeightForMove(weightedMoves, 0.17, move);
-    //   }
-    // }
-    // for (let move of suggestedForFood) {
-    //   if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, move) && closestOpponent != null) {
-    //     weightedMoves = addToWeightForMove(weightedMoves, 0.16, move);
-    //   }
-    // }
-    // for (let move of suggestedMoveForConservative[0]) {
-    //   weightedMoves = addToWeightForMove(weightedMoves, 0.06*move.numOfSafeMoves, move.move);
-    // }
+    if (suggestedMoveForConservative[1] != null && suggestedForAttack.length == 0 && suggestedForFood.length == 0 
+      && getNumberOfSafeMovesAtCoord(gameState, nextCoordAfterMove({move: suggestedMoveForConservative[1]}, gameState.you.head)) < 2) {
+      let possibleMove = this.escapeSerivce.escape(gameState);
+      if (possibleMove != null) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.19, possibleMove);
+      } 
+    }
+    for (let common of commonMoves) {
+      weightedMoves = addToWeightForMove(weightedMoves, 0.2, common);
+    }
+    for (let conserv of conservativeMovesObj) {
+      if (distanceFromCoodToClosestOpponent(gameState, nextCoordAfterMove({move: conserv.move}, gameState.you.head)) > 1) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.09*conserv.numOfSafeMoves, conserv.move);
+      } else {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.06*conserv.numOfSafeMoves, conserv.move);
+      }
+    }
+    for (let move of suggestedForAttack) {
+      if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, move) && closestOpponent != null) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.18, move);
+      }
+    }
+    for (let move of suggestedForFood) {
+      if (!this.escapeSerivce.checkIfMovePossiblyTraps(gameState, move) && closestOpponent != null) {
+        weightedMoves = addToWeightForMove(weightedMoves, 0.17, move);
+      }
+    }
+    for (let move of suggestedMoveForConservative[0]) {
+      weightedMoves = addToWeightForMove(weightedMoves, 0.06*move.numOfSafeMoves, move.move);
+    }
 
     let lastResortMove = this.escapeSerivce.escape(gameState);
     if (lastResortMove != null) {

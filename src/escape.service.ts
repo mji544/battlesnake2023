@@ -52,7 +52,8 @@ export class EscapeService {
     // let longestPath: Coord[] = [];
   
     // Use DFS to find the longest continuous, connecting path
-    const {path: longestPath, turns: _} = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, [], 0, previousMove);
+    const {path: longestPath, turns: numberOfTurns} = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, [], 0, previousMove);
+    console.log("number of turns:", numberOfTurns, "path:", longestPath)
   
     // console.log("longest path:", longestPath)
     // If no valid path is found, return null
@@ -191,8 +192,6 @@ export class EscapeService {
     // Backtrack: mark the current cell as unvisited and remove it from the current path
     visited[y][x] = false;
     currentPath.pop();
-
-    console.log("number of turns:", mostTurns)
 
     return {path, turns: mostTurns};
   }

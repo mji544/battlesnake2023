@@ -49,10 +49,10 @@ export class EscapeService {
     const visited: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
   
     // Initialize an empty array to store the longest path
-    let longestPath: Coord[] = [];
+    // let longestPath: Coord[] = [];
   
     // Use DFS to find the longest continuous, connecting path
-    longestPath = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, [], 0, );
+    const {path: longestPath, turns: _} = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, [], 0, previousMove);
   
     // console.log("longest path:", longestPath)
     // If no valid path is found, return null
@@ -177,20 +177,22 @@ export class EscapeService {
 
     // Recursively check adjacent positions
     const nextPath = [
-      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, [...currentPath], turns, Move.RIGHT),
-      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, [...currentPath], turns, Move.LEFT),
-      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, [...currentPath], turns, Move.UP),
-      this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, [...currentPath], turns, Move.DOWN)
+      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, [...currentPath], previousMove == Move.LEFT ? turns : turns+1, Move.LEFT),
+      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, [...currentPath], previousMove == Move.RIGHT ? turns : turns+1, Move.RIGHT),
+      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, [...currentPath], previousMove == Move.UP ? turns : turns+1, Move.UP),
+      this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, [...currentPath], previousMove == Move.DOWN ? turns : turns+1, Move.DOWN)
     ];
 
     // Find the longest path among the recursive results
-    const {path, turns: mostTurns} = nextPath.reduce((longest, path) => (path.path.length > longest.path.length ? path : longest), {path: [], turns: 0});
+    const {path, turns: mostTurns} = nextPath.reduce((longest, path) => (path.path.length > longest.path.length ? path : longest), {path: [], turns: turns});
 
     // console.log("longest", longestPath, "current", currentPath)
 
     // Backtrack: mark the current cell as unvisited and remove it from the current path
     visited[y][x] = false;
     currentPath.pop();
+
+    console.log("number of turns:", mostTurns)
 
     return {path, turns: mostTurns};
   }

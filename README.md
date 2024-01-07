@@ -32,6 +32,16 @@
 $ npm install
 ```
 
+## Running app in AWS
+cd into server
+pm2 stop 0
+
+git pull
+npm run build
+sudo pm2 start ./dist/main.js
+
+pm2 restart 0
+
 ## Running the app
 
 ```bash

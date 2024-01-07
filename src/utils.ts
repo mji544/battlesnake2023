@@ -51,6 +51,21 @@ export function nextCoordAfterMove(moveDirection: MoveResponse, currentHeadCoord
     }
 }
 
+export function moveToGetToAdjacentCoord(start: Coord, finish: Coord): Move {
+    if (start.x - finish.x == 1) {
+        return Move.LEFT;
+    }
+    if (start.x - finish.x == -1) {
+        return Move.RIGHT;
+    }
+    if (start.y - finish.y == 1) {
+        return Move.DOWN;
+    }
+    if (start.y - finish.y == -1) {
+        return Move.UP;
+    }
+}
+
 export function lookAheadForOpponent(gameState: GameState, possibleMoves: Move[]): Move[] {
     let notSafeMoves: Move[] = [];
     for (let move of possibleMoves) {

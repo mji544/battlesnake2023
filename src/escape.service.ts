@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GameState, Coord } from './types';
-import { Move, nextCoordAfterMove, SpaceContains, SplicingIndices, calculateDistance } from './utils';
+import { Move, nextCoordAfterMove, SpaceContains, SplicingIndices, calculateDistance, moveToGetToAdjacentCoord } from './utils';
 import { BoardService } from './board.service';
 
 @Injectable()
@@ -37,6 +37,8 @@ export class EscapeService {
   public findLongestRoute(gameState: GameState, startingCoord: Coord): Coord[] {
     const vicinityBoard = this.getVicinityBoard(gameState, startingCoord);
     const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
+    const previousMove = moveToGetToAdjacentCoord(gameState.you.body[1], gameState.you.head);
+    console.log("previous move was:", previousMove)
     // const myHeadCoord = gameState.you.head;
     // console.log(myHeadCoord, myHeadVicinityCoord, "here");
 
@@ -50,7 +52,7 @@ export class EscapeService {
     let longestPath: Coord[] = [];
   
     // Use DFS to find the longest continuous, connecting path
-    longestPath = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, []);
+    longestPath = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, [], 0, );
   
     // console.log("longest path:", longestPath)
     // If no valid path is found, return null
@@ -150,7 +152,7 @@ export class EscapeService {
     return indices;
   }
 
-  private dfsLongestPath(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], currentPath: Coord[]): Coord[] {
+  private dfsLongestPath(startingPoint: Coord, vicinityBoard: SpaceContains[][], visited: boolean[][], currentPath: Coord[], turns: number, previousMove: Move): {path: Coord[], turns: number} {
     const rows = vicinityBoard.length;
     const cols = vicinityBoard[0].length;
     const x = startingPoint.x;
@@ -158,13 +160,13 @@ export class EscapeService {
 
     // Check if the current position is within the grid and is an available space
     if (y < 0 || y >= rows || x < 0 || x >= cols) {
-      return [...currentPath];
+      return {path: [...currentPath], turns};
     }
     if (visited[y][x] || (vicinityBoard[y][x] != SpaceContains.EMPTY && vicinityBoard[y][x] != SpaceContains.FOOD && vicinityBoard[y][x] != SpaceContains.MY_HEAD)) {
-      return [...currentPath];
+      return {path: [...currentPath], turns};
     }
     if (this.coordIsBesideOpponentHead(vicinityBoard, startingPoint)) {
-      return [...currentPath];
+      return {path: [...currentPath], turns};
     }
 
     // Mark the current cell as visited
@@ -175,14 +177,14 @@ export class EscapeService {
 
     // Recursively check adjacent positions
     const nextPath = [
-      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, [...currentPath]),
-      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, [...currentPath]),
-      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, [...currentPath]),
-      this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, [...currentPath])
+      this.dfsLongestPath({x: x - 1, y: y}, vicinityBoard, visited, [...currentPath], turns, Move.RIGHT),
+      this.dfsLongestPath({x: x + 1, y: y}, vicinityBoard, visited, [...currentPath], turns, Move.LEFT),
+      this.dfsLongestPath({x: x, y: y - 1}, vicinityBoard, visited, [...currentPath], turns, Move.UP),
+      this.dfsLongestPath({x: x, y: y + 1}, vicinityBoard, visited, [...currentPath], turns, Move.DOWN)
     ];
 
     // Find the longest path among the recursive results
-    const longestPath = nextPath.reduce((longest, path) => (path.length > longest.length ? path : longest), []);
+    const {path, turns: mostTurns} = nextPath.reduce((longest, path) => (path.path.length > longest.path.length ? path : longest), {path: [], turns: 0});
 
     // console.log("longest", longestPath, "current", currentPath)
 
@@ -190,7 +192,7 @@ export class EscapeService {
     visited[y][x] = false;
     currentPath.pop();
 
-    return longestPath;
+    return {path, turns: mostTurns};
   }
 
   private getMyHeadBoardCoord(vicinityBoard: SpaceContains[][]): Coord {

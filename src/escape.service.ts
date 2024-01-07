@@ -34,6 +34,11 @@ export class EscapeService {
     return null;
   }
 
+  private findEnclosedAreas(gameState: GameState): Coord[] {
+    const currentGameBoard = this.gameBoard;
+    return this.getEnclosedAreas(currentGameBoard);
+  }
+
   public findLongestRoute(gameState: GameState, startingCoord: Coord): Coord[] {
     const vicinityBoard = this.getVicinityBoard(gameState, startingCoord);
     const myHeadVicinityCoord = this.getMyHeadBoardCoord(vicinityBoard);
@@ -47,9 +52,6 @@ export class EscapeService {
     
     // Initialize a 2D array to keep track of visited cells
     const visited: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
-  
-    // Initialize an empty array to store the longest path
-    // let longestPath: Coord[] = [];
   
     // Use DFS to find the longest continuous, connecting path
     const {path: longestPath, turns: numberOfTurns} = this.dfsLongestPath(myHeadVicinityCoord, vicinityBoard,visited, [], 0, previousMove);
@@ -192,6 +194,24 @@ export class EscapeService {
     currentPath.pop();
 
     return {path, turns: mostTurns};
+  }
+
+  private getEnclosedAreas(board: SpaceContains[][]): Coord[] {
+    const rows = board.length;
+    const cols = board[0].length;
+
+    let areas: Coord[][] = []
+
+    for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+      for (let colIndex = 0; colIndex < cols; colIndex++) {
+        if (board[rowIndex][colIndex] == SpaceContains.EMPTY || board[rowIndex][colIndex] == SpaceContains.FOOD) {
+
+        }
+      }
+    }
+
+    // find all empty areas and go through list to see if they are touching if they are not then check to see if area is smaller than 7/5 then those are the enclosed areas
+    return [];
   }
 
   private getMyHeadBoardCoord(vicinityBoard: SpaceContains[][]): Coord {

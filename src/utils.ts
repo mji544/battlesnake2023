@@ -19,7 +19,6 @@ export enum SpaceContains {
     ME = "m",
     MY_HEAD = "mh",
     EMPTY = "x",
-    ESCAPE_PATH = "ep",
 }
 
 export interface SplicingIndices {
